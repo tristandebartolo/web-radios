@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./webradios.db"
+}
+
+// ============================================
+// USERS & AUTHENTICATION
+// ============================================
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String?
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  radiosCreated Radio[] @relation("CreatedBy")
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// ============================================
+// RADIOS
+// ============================================
+
+model Radio {
+  id          String     @id @default(cuid())
+  name        String
+  streamUrl   String     @map("stream_url")
+  streamType  StreamType @default(MP3) @map("stream_type")
+  logoUrl     String?    @map("logo_url")
+  description String?
+  country     String?
+  region      String?
+  isActive    Boolean    @default(true) @map("is_active")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  createdBy   User?   @relation("CreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String? @map("created_by")
+  genres      Genre[] @relation("RadioGenres")
+
+  @@index([name])
+  @@index([isActive])
+  @@index([country])
+  @@map("radios")
+}
+
+enum StreamType {
+  MP3
+  HLS
+  AAC
+  OGG
+}
+
+// ============================================
+// GENRES
+// ============================================
+
+model Genre {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  radios Radio[] @relation("RadioGenres")
+
+  @@index([slug])
+  @@map("genres")
+}
