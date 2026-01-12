@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { RadioGrid } from '@/components/radio/RadioGrid';
 import { RadioList } from '@/components/radio/RadioList';
+import { Select } from '@/components/ui/Select';
 import type { RadioForPlayer } from '@/context/PlayerContext';
 
 interface Genre {
@@ -253,48 +254,42 @@ export function RadiosPageClient({ radios, genres, countries }: RadiosPageClient
           {/* Filtre par genre */}
           <div className="flex-1 min-w-[150px]">
             <label className="block text-xs text-(--muted) mb-1">Genre</label>
-            <select
+            <Select
               value={filters.genre}
-              onChange={(e) => updateFilter('genre', e.target.value)}
-              className="w-full px-3 py-2 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
-            >
-              <option value="">Tous les genres</option>
-              {genres.map((genre) => (
-                <option key={genre.slug} value={genre.slug}>
-                  {genre.name}
-                </option>
-              ))}
-            </select>
+              onChange={(value) => updateFilter('genre', value)}
+              placeholder="Tous les genres"
+              options={[
+                { value: '', label: 'Tous les genres' },
+                ...genres.map((genre) => ({ value: genre.slug, label: genre.name })),
+              ]}
+            />
           </div>
 
           {/* Filtre par pays */}
           <div className="flex-1 min-w-[150px]">
             <label className="block text-xs text-(--muted) mb-1">Pays</label>
-            <select
+            <Select
               value={filters.country}
-              onChange={(e) => updateFilter('country', e.target.value)}
-              className="w-full px-3 py-2 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
-            >
-              <option value="">Tous les pays</option>
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </select>
+              onChange={(value) => updateFilter('country', value)}
+              placeholder="Tous les pays"
+              options={[
+                { value: '', label: 'Tous les pays' },
+                ...countries.map((country) => ({ value: country, label: country })),
+              ]}
+            />
           </div>
 
           {/* Tri */}
           <div className="flex-1 min-w-[150px]">
             <label className="block text-xs text-(--muted) mb-1">Trier par</label>
-            <select
+            <Select
               value={filters.sortField}
-              onChange={(e) => updateFilter('sortField', e.target.value as SortField)}
-              className="w-full px-3 py-2 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
-            >
-              <option value="name">Nom</option>
-              <option value="country">Pays</option>
-            </select>
+              onChange={(value) => updateFilter('sortField', value as SortField)}
+              options={[
+                { value: 'name', label: 'Nom' },
+                { value: 'country', label: 'Pays' },
+              ]}
+            />
           </div>
 
           {/* Ordre */}

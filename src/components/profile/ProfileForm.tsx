@@ -81,13 +81,13 @@ export function ProfileForm({ user }: ProfileFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-3 rounded-lg bg-[var(--error)]/10 border border-[var(--error)]/20 text-[var(--error)] text-sm">
+        <div className="p-3 rounded-lg bg-(--error)/10 border border-(--error)/20 text-(--error) text-sm">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="p-3 rounded-lg bg-[var(--success)]/10 border border-[var(--success)]/20 text-[var(--success)] text-sm">
+        <div className="p-3 rounded-lg bg-(--success)/10 border border-(--success)/20 text-(--success) text-sm">
           {success}
         </div>
       )}
@@ -116,11 +116,11 @@ export function ProfileForm({ user }: ProfileFormProps) {
         />
 
         <div className="flex items-center gap-2">
-          <span className="text-sm text-[var(--muted)]">Rôle :</span>
+          <span className="text-sm text-(--muted)">Rôle :</span>
           <span className={`px-2 py-0.5 text-xs rounded-full ${
             user.role === 'ADMIN'
-              ? 'bg-[var(--primary)]/20 text-[var(--primary)]'
-              : 'bg-[var(--secondary)] text-[var(--muted)]'
+              ? 'bg-(--primary)/20 text-(--primary)'
+              : 'bg-(--secondary) text-(--muted)'
           }`}>
             {user.role === 'ADMIN' ? 'Administrateur' : 'Utilisateur'}
           </span>
@@ -128,9 +128,9 @@ export function ProfileForm({ user }: ProfileFormProps) {
       </div>
 
       {/* Password section */}
-      <div className="space-y-4 pt-6 border-t border-[var(--border)]">
+      <div className="space-y-4 pt-6 border-t border-(--border)">
         <h2 className="text-lg font-semibold">Changer le mot de passe</h2>
-        <p className="text-sm text-[var(--muted)]">
+        <p className="text-sm text-(--muted)">
           Laissez vide si vous ne souhaitez pas changer de mot de passe
         </p>
 

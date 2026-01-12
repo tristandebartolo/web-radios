@@ -21,7 +21,7 @@ export default async function AdminGenresPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold gradient-text">Genres</h1>
-          <p className="text-[var(--muted)] mt-1">{genres.length} genre(s)</p>
+          <p className="text-(--muted) mt-1">{genres.length} genre(s)</p>
         </div>
       </div>
 

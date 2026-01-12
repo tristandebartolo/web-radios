@@ -143,7 +143,7 @@ export function GenresList({ genres }: GenresListProps) {
           </Button>
         </form>
         {error && (
-          <p className="mt-2 text-sm text-[var(--error)]">{error}</p>
+          <p className="mt-2 text-sm text-(--error)">{error}</p>
         )}
       </div>
 
@@ -152,16 +152,16 @@ export function GenresList({ genres }: GenresListProps) {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="text-left text-sm text-[var(--muted)] border-b border-[var(--border)] bg-[var(--secondary)]/50">
+              <tr className="text-left text-sm text-(--muted) border-b border-(--border) bg-(--secondary)/50">
                 <th className="px-6 py-4 font-medium">Nom</th>
                 <th className="px-6 py-4 font-medium">Slug</th>
                 <th className="px-6 py-4 font-medium">Radios</th>
                 <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]">
+            <tbody className="divide-y divide-(--border)">
               {genres.map((genre) => (
-                <tr key={genre.id} className="hover:bg-[var(--secondary)]/30 transition-colors">
+                <tr key={genre.id} className="hover:bg-(--secondary)/30 transition-colors">
                   <td className="px-6 py-4">
                     {editingId === genre.id ? (
                       <Input
@@ -175,12 +175,12 @@ export function GenresList({ genres }: GenresListProps) {
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <code className="px-2 py-1 text-xs rounded bg-[var(--secondary)] text-[var(--muted)]">
+                    <code className="px-2 py-1 text-xs rounded bg-(--secondary) text-(--muted)">
                       {genre.slug}
                     </code>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="px-2 py-0.5 text-xs rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">
+                    <span className="px-2 py-0.5 text-xs rounded-full bg-(--primary)/10 text-(--primary)">
                       {genre._count.radios}
                     </span>
                   </td>
@@ -217,7 +217,7 @@ export function GenresList({ genres }: GenresListProps) {
                             size="sm"
                             onClick={() => handleDelete(genre.id, genre._count.radios)}
                             isLoading={deletingId === genre.id}
-                            className="text-[var(--error)] hover:bg-[var(--error)]/10"
+                            className="text-(--error) hover:bg-(--error)/10"
                           >
                             Supprimer
                           </Button>
@@ -232,7 +232,7 @@ export function GenresList({ genres }: GenresListProps) {
         </div>
 
         {genres.length === 0 && (
-          <div className="p-8 text-center text-[var(--muted)]">
+          <div className="p-8 text-center text-(--muted)">
             Aucun genre trouvé
           </div>
         )}

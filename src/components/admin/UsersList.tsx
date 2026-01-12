@@ -55,7 +55,7 @@ export function UsersList({ users }: UsersListProps) {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="text-left text-sm text-[var(--muted)] border-b border-[var(--border)] bg-[var(--secondary)]/50">
+              <tr className="text-left text-sm text-(--muted) border-b border-(--border) bg-(--secondary)/50">
                 <th className="px-6 py-4 font-medium">Utilisateur</th>
                 <th className="px-6 py-4 font-medium">Rôle</th>
                 <th className="px-6 py-4 font-medium">Inscrit le</th>
@@ -63,28 +63,28 @@ export function UsersList({ users }: UsersListProps) {
                 <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]">
+            <tbody className="divide-y divide-(--border)">
               {users.map((user) => (
-                <tr key={user.id} className="hover:bg-[var(--secondary)]/30 transition-colors">
+                <tr key={user.id} className="hover:bg-(--secondary)/30 transition-colors">
                   <td className="px-6 py-4">
                     <div>
                       <p className="font-medium">{user.name || 'Sans nom'}</p>
-                      <p className="text-sm text-[var(--muted)]">{user.email}</p>
+                      <p className="text-sm text-(--muted)">{user.email}</p>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <span className={`px-2 py-0.5 text-xs rounded-full ${
                       user.role === 'ADMIN'
-                        ? 'bg-[var(--primary)]/20 text-[var(--primary)]'
-                        : 'bg-[var(--secondary)] text-[var(--muted)]'
+                        ? 'bg-(--primary)/20 text-(--primary)'
+                        : 'bg-(--secondary) text-(--muted)'
                     }`}>
                       {user.role === 'ADMIN' ? 'Admin' : 'User'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-[var(--muted)]">
+                  <td className="px-6 py-4 text-sm text-(--muted)">
                     {new Date(user.createdAt).toLocaleDateString('fr-FR')}
                   </td>
-                  <td className="px-6 py-4 text-sm text-[var(--muted)]">
+                  <td className="px-6 py-4 text-sm text-(--muted)">
                     {new Date(user.updatedAt).toLocaleDateString('fr-FR')}
                   </td>
                   <td className="px-6 py-4">
@@ -101,7 +101,7 @@ export function UsersList({ users }: UsersListProps) {
                         size="sm"
                         onClick={() => handleDelete(user.id)}
                         isLoading={deletingId === user.id}
-                        className="text-[var(--error)] hover:bg-[var(--error)]/10"
+                        className="text-(--error) hover:bg-(--error)/10"
                       >
                         Supprimer
                       </Button>
@@ -114,7 +114,7 @@ export function UsersList({ users }: UsersListProps) {
         </div>
 
         {users.length === 0 && (
-          <div className="p-8 text-center text-[var(--muted)]">
+          <div className="p-8 text-center text-(--muted)">
             Aucun utilisateur trouvé
           </div>
         )}

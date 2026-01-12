@@ -23,7 +23,7 @@ export default async function AdminUsersPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold gradient-text">Utilisateurs</h1>
-        <span className="text-[var(--muted)]">{users.length} utilisateur(s)</span>
+        <span className="text-(--muted)">{users.length} utilisateur(s)</span>
       </div>
 
       <UsersList users={users} />

@@ -27,7 +27,7 @@ export default async function AdminRadiosPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold gradient-text">Radios</h1>
-          <p className="text-[var(--muted)] mt-1">{radios.length} radio(s)</p>
+          <p className="text-(--muted) mt-1">{radios.length} radio(s)</p>
         </div>
         <Link href="/admin/radios/new">
           <Button>+ Nouvelle radio</Button>

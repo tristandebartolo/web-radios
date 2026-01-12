@@ -71,7 +71,7 @@ export function UserEditModal({ user, onClose, onSuccess }: UserEditModalProps) 
           <h2 className="text-xl font-semibold">Modifier l&apos;utilisateur</h2>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-[var(--secondary)] rounded-lg transition-colors"
+            className="p-1 hover:bg-(--secondary) rounded-lg transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -81,7 +81,7 @@ export function UserEditModal({ user, onClose, onSuccess }: UserEditModalProps) 
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="p-3 rounded-lg bg-[var(--error)]/10 border border-[var(--error)]/20 text-[var(--error)] text-sm">
+            <div className="p-3 rounded-lg bg-(--error)/10 border border-(--error)/20 text-(--error) text-sm">
               {error}
             </div>
           )}
@@ -106,21 +106,21 @@ export function UserEditModal({ user, onClose, onSuccess }: UserEditModalProps) 
           />
 
           <div>
-            <label htmlFor="role" className="block text-sm font-medium text-[var(--foreground)] mb-1.5">
+            <label htmlFor="role" className="block text-sm font-medium text-(--foreground) mb-1.5">
               Rôle
             </label>
             <select
               id="role"
               name="role"
               defaultValue={user.role}
-              className="w-full px-4 py-2.5 rounded-lg bg-[var(--secondary)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
+              className="w-full px-4 py-2.5 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary) focus:border-transparent"
             >
               <option value="USER">Utilisateur</option>
               <option value="ADMIN">Administrateur</option>
             </select>
           </div>
 
-          <div className="pt-4 border-t border-[var(--border)]">
+          <div className="pt-4 border-t border-(--border)">
             <Input
               id="newPassword"
               name="newPassword"
@@ -129,7 +129,7 @@ export function UserEditModal({ user, onClose, onSuccess }: UserEditModalProps) 
               placeholder="Laisser vide pour ne pas changer"
               autoComplete="new-password"
             />
-            <p className="mt-1 text-xs text-[var(--muted)]">
+            <p className="mt-1 text-xs text-(--muted)">
               Minimum 6 caractères
             </p>
           </div>

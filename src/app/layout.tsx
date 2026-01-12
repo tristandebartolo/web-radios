@@ -33,7 +33,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className="min-h-screen bg-(--background) text-(--foreground) antialiased">
+      <body suppressHydrationWarning className="min-h-screen bg-(--background) text-(--foreground) antialiased">
         <AuthProvider>
           <FavoritesProvider>
             <PlayerProvider>

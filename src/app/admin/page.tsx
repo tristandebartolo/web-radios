@@ -57,7 +57,7 @@ export default async function AdminDashboardPage() {
           <h2 className="text-xl font-semibold">Derniers utilisateurs</h2>
           <Link
             href="/admin/users"
-            className="text-sm text-[var(--primary)] hover:text-[var(--primary-hover)]"
+            className="text-sm text-(--primary) hover:text-(--primary-hover)"
           >
             Voir tous →
           </Link>
@@ -66,31 +66,31 @@ export default async function AdminDashboardPage() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="text-left text-sm text-[var(--muted)] border-b border-[var(--border)]">
+              <tr className="text-left text-sm text-(--muted) border-b border-(--border)">
                 <th className="pb-3 font-medium">Utilisateur</th>
                 <th className="pb-3 font-medium">Rôle</th>
                 <th className="pb-3 font-medium">Date d&apos;inscription</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]">
+            <tbody className="divide-y divide-(--border)">
               {recentUsers.map((user) => (
                 <tr key={user.id}>
                   <td className="py-3">
                     <div>
                       <p className="font-medium">{user.name || 'Sans nom'}</p>
-                      <p className="text-sm text-[var(--muted)]">{user.email}</p>
+                      <p className="text-sm text-(--muted)">{user.email}</p>
                     </div>
                   </td>
                   <td className="py-3">
                     <span className={`px-2 py-0.5 text-xs rounded-full ${
                       user.role === 'ADMIN'
-                        ? 'bg-[var(--primary)]/20 text-[var(--primary)]'
-                        : 'bg-[var(--secondary)] text-[var(--muted)]'
+                        ? 'bg-(--primary)/20 text-(--primary)'
+                        : 'bg-(--secondary) text-(--muted)'
                     }`}>
                       {user.role === 'ADMIN' ? 'Admin' : 'User'}
                     </span>
                   </td>
-                  <td className="py-3 text-sm text-[var(--muted)]">
+                  <td className="py-3 text-sm text-(--muted)">
                     {new Date(user.createdAt).toLocaleDateString('fr-FR')}
                   </td>
                 </tr>

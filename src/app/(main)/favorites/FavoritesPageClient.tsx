@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useFavorites, FAVORITE_LEVELS, type FavoriteLevel } from '@/context/FavoritesContext';
 import { RadioGrid } from '@/components/radio/RadioGrid';
+import { Select } from '@/components/ui/Select';
 import type { RadioForPlayer } from '@/context/PlayerContext';
 
 interface Genre {
@@ -257,55 +258,55 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
             {/* Filtres en ligne */}
             <div className="flex flex-wrap gap-3">
               {/* Filtre par niveau */}
-              <div className="flex-1 min-w-37.5">
+              <div className="flex-1 min-w-[150px]">
                 <label className="block text-xs text-(--muted) mb-1">Niveau</label>
-                <select
+                <Select
                   value={filters.level}
-                  onChange={(e) => updateFilter('level', e.target.value as FavoriteLevel | 'all')}
-                  className="w-full px-3 py-2 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
-                >
-                  <option value="all">Tous les niveaux</option>
-                  {FAVORITE_LEVELS.map((level) => (
-                    <option key={level.value} value={level.value}>
-                      {level.emoji} {level.label}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(value) => updateFilter('level', value as FavoriteLevel | 'all')}
+                  placeholder="Tous les niveaux"
+                  options={[
+                    { value: 'all', label: 'Tous les niveaux' },
+                    ...FAVORITE_LEVELS.map((level) => ({
+                      value: level.value,
+                      label: `${level.emoji} ${level.label}`,
+                    })),
+                  ]}
+                />
               </div>
 
               {/* Filtre par genre */}
-              <div className="flex-1 min-w-37.5">
+              <div className="flex-1 min-w-[150px]">
                 <label className="block text-xs text-(--muted) mb-1">Genre</label>
-                <select
+                <Select
                   value={filters.genre}
-                  onChange={(e) => updateFilter('genre', e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
-                >
-                  <option value="">Tous les genres</option>
-                  {availableGenres.map((genre) => (
-                    <option key={genre.slug} value={genre.slug}>
-                      {genre.name}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(value) => updateFilter('genre', value)}
+                  placeholder="Tous les genres"
+                  options={[
+                    { value: '', label: 'Tous les genres' },
+                    ...availableGenres.map((genre) => ({
+                      value: genre.slug,
+                      label: genre.name,
+                    })),
+                  ]}
+                />
               </div>
 
               {/* Tri */}
-              <div className="flex-1 min-w-37.5">
+              <div className="flex-1 min-w-[150px]">
                 <label className="block text-xs text-(--muted) mb-1">Trier par</label>
-                <select
+                <Select
                   value={filters.sortField}
-                  onChange={(e) => updateFilter('sortField', e.target.value as SortField)}
-                  className="w-full px-3 py-2 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary)"
-                >
-                  <option value="addedAt">Date d'ajout</option>
-                  <option value="name">Nom</option>
-                  <option value="level">Niveau</option>
-                </select>
+                  onChange={(value) => updateFilter('sortField', value as SortField)}
+                  options={[
+                    { value: 'addedAt', label: "Date d'ajout" },
+                    { value: 'name', label: 'Nom' },
+                    { value: 'level', label: 'Niveau' },
+                  ]}
+                />
               </div>
 
               {/* Ordre */}
-              <div className="min-w-25">
+              <div className="min-w-[100px]">
                 <label className="block text-xs text-(--muted) mb-1">Ordre</label>
                 <button
                   onClick={() => updateFilter('sortOrder', filters.sortOrder === 'asc' ? 'desc' : 'asc')}

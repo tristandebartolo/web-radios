@@ -88,7 +88,7 @@ export function RadiosList({ radios }: RadiosListProps) {
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="text-left text-sm text-[var(--muted)] border-b border-[var(--border)] bg-[var(--secondary)]/50">
+            <tr className="text-left text-sm text-(--muted) border-b border-(--border) bg-(--secondary)/50">
               <th className="px-6 py-4 font-medium">Radio</th>
               <th className="px-6 py-4 font-medium">Type</th>
               <th className="px-6 py-4 font-medium">Genres</th>
@@ -97,9 +97,9 @@ export function RadiosList({ radios }: RadiosListProps) {
               <th className="px-6 py-4 font-medium text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[var(--border)]">
+          <tbody className="divide-y divide-(--border)">
             {radios.map((radio) => (
-              <tr key={radio.id} className="hover:bg-[var(--secondary)]/30 transition-colors">
+              <tr key={radio.id} className="hover:bg-(--secondary)/30 transition-colors">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     {radio.logoUrl ? (
@@ -111,14 +111,14 @@ export function RadiosList({ radios }: RadiosListProps) {
                         className="rounded-lg object-cover"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-lg bg-[var(--secondary)] flex items-center justify-center text-lg">
+                      <div className="w-10 h-10 rounded-lg bg-(--secondary) flex items-center justify-center text-lg">
                         📻
                       </div>
                     )}
                     <div>
                       <p className="font-medium">{radio.name}</p>
                       {radio.description && (
-                        <p className="text-xs text-[var(--muted)] truncate max-w-[200px]">
+                        <p className="text-xs text-(--muted) truncate max-w-50">
                           {radio.description}
                         </p>
                       )}
@@ -126,7 +126,7 @@ export function RadiosList({ radios }: RadiosListProps) {
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-[var(--secondary)] text-[var(--foreground)]">
+                  <span className="px-2 py-0.5 text-xs rounded-full bg-(--secondary) text-(--foreground)">
                     {radio.streamType}
                   </span>
                 </td>
@@ -135,19 +135,19 @@ export function RadiosList({ radios }: RadiosListProps) {
                     {radio.genres.slice(0, 3).map((genre) => (
                       <span
                         key={genre.id}
-                        className="px-2 py-0.5 text-xs rounded-full bg-[var(--primary)]/10 text-[var(--primary)]"
+                        className="px-2 py-0.5 text-xs rounded-full bg-(--primary)/10 text-(--primary)"
                       >
                         {genre.name}
                       </span>
                     ))}
                     {radio.genres.length > 3 && (
-                      <span className="px-2 py-0.5 text-xs text-[var(--muted)]">
+                      <span className="px-2 py-0.5 text-xs text-(--muted)">
                         +{radio.genres.length - 3}
                       </span>
                     )}
                   </div>
                 </td>
-                <td className="px-6 py-4 text-sm text-[var(--muted)]">
+                <td className="px-6 py-4 text-sm text-(--muted)">
                   {radio.country || '-'}
                 </td>
                 <td className="px-6 py-4">
@@ -156,8 +156,8 @@ export function RadiosList({ radios }: RadiosListProps) {
                     disabled={togglingId === radio.id}
                     className={`px-2 py-0.5 text-xs rounded-full transition-colors ${
                       radio.isActive
-                        ? 'bg-[var(--success)]/20 text-[var(--success)]'
-                        : 'bg-[var(--error)]/20 text-[var(--error)]'
+                        ? 'bg-(--success)/20 text-(--success)'
+                        : 'bg-(--error)/20 text-(--error)'
                     }`}
                   >
                     {togglingId === radio.id ? '...' : radio.isActive ? 'Actif' : 'Inactif'}
@@ -175,7 +175,7 @@ export function RadiosList({ radios }: RadiosListProps) {
                       size="sm"
                       onClick={() => handleDelete(radio.id)}
                       isLoading={deletingId === radio.id}
-                      className="text-[var(--error)] hover:bg-[var(--error)]/10"
+                      className="text-(--error) hover:bg-(--error)/10"
                     >
                       Supprimer
                     </Button>
@@ -188,7 +188,7 @@ export function RadiosList({ radios }: RadiosListProps) {
       </div>
 
       {radios.length === 0 && (
-        <div className="p-8 text-center text-[var(--muted)]">
+        <div className="p-8 text-center text-(--muted)">
           Aucune radio trouvée
         </div>
       )}

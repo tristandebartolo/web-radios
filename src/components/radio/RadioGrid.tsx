@@ -13,7 +13,7 @@ export function RadioGrid({ radios }: RadioGridProps) {
       <div className="text-center py-16">
         <div className="text-6xl mb-4">📻</div>
         <h3 className="text-xl font-semibold mb-2">Aucune radio trouvée</h3>
-        <p className="text-[var(--muted)]">
+        <p className="text-(--muted)">
           Essayez de modifier vos critères de recherche
         </p>
       </div>
