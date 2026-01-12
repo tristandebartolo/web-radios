@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UserMenu } from "@/components/auth/UserMenu";
+// import { UserMenu } from "@/components/auth/UserMenu";
 
 export default function HomePage() {
   return (
