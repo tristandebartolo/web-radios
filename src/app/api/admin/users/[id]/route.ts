@@ -6,7 +6,7 @@ import { Role } from '@prisma/client';
 
 // GET /api/admin/users/[id]
 export async function GET(
-  request: Request,
+  // request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
