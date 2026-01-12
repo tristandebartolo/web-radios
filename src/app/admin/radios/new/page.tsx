@@ -17,7 +17,7 @@ export default async function NewRadioPage() {
       <div className="flex items-center gap-4 mb-8">
         <Link
           href="/admin/radios"
-          className="p-2 hover:bg-[var(--secondary)] rounded-lg transition-colors"
+          className="p-2 hover:bg-(--secondary) rounded-lg transition-colors"
         >
           ←
         </Link>

@@ -112,7 +112,7 @@ export function RadioForm({ radio, genres }: RadioFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-3 rounded-lg bg-[var(--error)]/10 border border-[var(--error)]/20 text-[var(--error)] text-sm">
+        <div className="p-3 rounded-lg bg-(--error)/10 border border-(--error)/20 text-(--error) text-sm">
           {error}
         </div>
       )}
@@ -142,14 +142,14 @@ export function RadioForm({ radio, genres }: RadioFormProps) {
         />
 
         <div>
-          <label htmlFor="streamType" className="block text-sm font-medium text-[var(--foreground)] mb-1.5">
+          <label htmlFor="streamType" className="block text-sm font-medium text-(--foreground) mb-1.5">
             Type de flux
           </label>
           <select
             id="streamType"
             name="streamType"
             defaultValue={radio?.streamType || 'MP3'}
-            className="w-full px-4 py-2.5 rounded-lg bg-[var(--secondary)] border border-[var(--border)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
+            className="w-full px-4 py-2.5 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) focus:outline-none focus:ring-2 focus:ring-(--primary) focus:border-transparent"
           >
             {STREAM_TYPES.map((type) => (
               <option key={type.value} value={type.value}>
@@ -170,7 +170,7 @@ export function RadioForm({ radio, genres }: RadioFormProps) {
       </div>
 
       {/* Genres */}
-      <div className="space-y-4 pt-4 border-t border-[var(--border)]">
+      <div className="space-y-4 pt-4 border-t border-(--border)">
         <h2 className="text-lg font-semibold">Genres musicaux</h2>
         <div className="flex flex-wrap gap-2">
           {genres.map((genre) => (
@@ -180,8 +180,8 @@ export function RadioForm({ radio, genres }: RadioFormProps) {
               onClick={() => toggleGenre(genre.id)}
               className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
                 selectedGenres.includes(genre.id)
-                  ? 'bg-[var(--primary)] text-white'
-                  : 'bg-[var(--secondary)] text-[var(--foreground)] hover:bg-[var(--card-hover)]'
+                  ? 'bg-(--primary) text-white'
+                  : 'bg-(--secondary) text-(--foreground) hover:bg-(--card-hover)'
               }`}
             >
               {genre.name}
@@ -189,12 +189,12 @@ export function RadioForm({ radio, genres }: RadioFormProps) {
           ))}
         </div>
         {genres.length === 0 && (
-          <p className="text-sm text-[var(--muted)]">Aucun genre disponible</p>
+          <p className="text-sm text-(--muted)">Aucun genre disponible</p>
         )}
       </div>
 
       {/* Localisation */}
-      <div className="space-y-4 pt-4 border-t border-[var(--border)]">
+      <div className="space-y-4 pt-4 border-t border-(--border)">
         <h2 className="text-lg font-semibold">Localisation</h2>
 
         <div className="grid grid-cols-2 gap-4">
@@ -219,7 +219,7 @@ export function RadioForm({ radio, genres }: RadioFormProps) {
       </div>
 
       {/* Logo */}
-      <div className="space-y-4 pt-4 border-t border-[var(--border)]">
+      <div className="space-y-4 pt-4 border-t border-(--border)">
         <h2 className="text-lg font-semibold">Apparence</h2>
 
         <Input
@@ -233,7 +233,7 @@ export function RadioForm({ radio, genres }: RadioFormProps) {
       </div>
 
       {/* Liens externes */}
-      <div className="space-y-4 pt-4 border-t border-[var(--border)]">
+      <div className="space-y-4 pt-4 border-t border-(--border)">
         <h2 className="text-lg font-semibold">Liens externes</h2>
 
         <Input

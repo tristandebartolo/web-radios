@@ -85,7 +85,7 @@ export function FavoriteButton({ radioId, size = 'md', className }: FavoriteButt
 
       {/* Menu déroulant */}
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 z-50 min-w-[140px] py-2 rounded-xl glass border border-(--border) shadow-lg animate-slide-up">
+        <div className="absolute top-full right-0 mt-2 z-50 min-w-35 py-2 rounded-xl glass border border-(--border) shadow-lg animate-slide-up">
           {FAVORITE_LEVELS.map((level) => (
             <button
               key={level.value}

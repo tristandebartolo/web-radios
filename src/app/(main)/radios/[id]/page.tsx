@@ -78,11 +78,11 @@ export default async function RadioPage({ params }: RadioPageProps) {
     <div className="pb-24">
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm">
-        <Link href="/radios" className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">
+        <Link href="/radios" className="text-(--muted) hover:text-(--foreground) transition-colors">
           Radios
         </Link>
-        <span className="mx-2 text-[var(--muted)]">/</span>
-        <span className="text-[var(--foreground)]">{radio.name}</span>
+        <span className="mx-2 text-(--muted)">/</span>
+        <span className="text-(--foreground)">{radio.name}</span>
       </nav>
 
       {/* Radio Info */}
@@ -100,7 +100,7 @@ export default async function RadioPage({ params }: RadioPageProps) {
                 priority
               />
             ) : (
-              <div className="w-full h-full rounded-xl bg-[var(--secondary)] flex items-center justify-center text-7xl">
+              <div className="w-full h-full rounded-xl bg-(--secondary) flex items-center justify-center text-7xl">
                 📻
               </div>
             )}
@@ -112,7 +112,7 @@ export default async function RadioPage({ params }: RadioPageProps) {
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold mb-2">{radio.name}</h1>
                 {radio.description && (
-                  <p className="text-[var(--muted)] text-lg">{radio.description}</p>
+                  <p className="text-(--muted) text-lg">{radio.description}</p>
                 )}
               </div>
               <div className="flex items-center gap-3">
@@ -128,7 +128,7 @@ export default async function RadioPage({ params }: RadioPageProps) {
                   <Link
                     key={genre.id}
                     href={`/radios?genre=${genre.slug}`}
-                    className="px-3 py-1 text-sm rounded-full bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)]/20 transition-colors"
+                    className="px-3 py-1 text-sm rounded-full bg-(--primary)/10 text-(--primary) hover:bg-(--primary)/20 transition-colors"
                   >
                     {genre.name}
                   </Link>
@@ -138,14 +138,14 @@ export default async function RadioPage({ params }: RadioPageProps) {
 
             {/* Location */}
             {(radio.country || radio.region) && (
-              <p className="text-[var(--muted)] mb-4">
+              <p className="text-(--muted) mb-4">
                 📍 {[radio.region, radio.country].filter(Boolean).join(', ')}
               </p>
             )}
 
             {/* Stream info */}
             <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
-              <span className="px-3 py-1 text-sm rounded-full bg-[var(--secondary)] text-[var(--foreground)]">
+              <span className="px-3 py-1 text-sm rounded-full bg-(--secondary) text-(--foreground)">
                 {radio.streamType}
               </span>
             </div>

@@ -21,12 +21,12 @@ export function RadioCard({ radio }: RadioCardProps) {
     <div
       className={cn(
         'group relative glass rounded-2xl p-4 transition-all duration-300',
-        'hover:bg-[var(--card-hover)] hover:scale-[1.02]',
-        isActive && 'ring-2 ring-[var(--primary)] animate-pulse-glow'
+        'hover:bg-(--card-hover) hover:scale-[1.02]',
+        isActive && 'ring-2 ring-(--primary) animate-pulse-glow'
       )}
     >
       {/* Logo */}
-      <div className="relative aspect-square mb-4 rounded-xl overflow-hidden bg-[var(--secondary)]">
+      <div className="relative aspect-square mb-4 rounded-xl overflow-hidden bg-(--secondary)">
         {radio.logoUrl ? (
           <Image
             src={radio.logoUrl}
@@ -64,10 +64,10 @@ export function RadioCard({ radio }: RadioCardProps) {
         {isActive && (
           <div className="absolute bottom-2 left-2 flex items-center gap-1">
             <div className="flex items-end gap-0.5 h-4">
-              <span className="w-1 bg-[var(--success)] rounded-full animate-[bounce_0.5s_ease-in-out_infinite]" style={{ height: '60%', animationDelay: '0ms' }} />
-              <span className="w-1 bg-[var(--success)] rounded-full animate-[bounce_0.5s_ease-in-out_infinite]" style={{ height: '100%', animationDelay: '150ms' }} />
-              <span className="w-1 bg-[var(--success)] rounded-full animate-[bounce_0.5s_ease-in-out_infinite]" style={{ height: '40%', animationDelay: '300ms' }} />
-              <span className="w-1 bg-[var(--success)] rounded-full animate-[bounce_0.5s_ease-in-out_infinite]" style={{ height: '80%', animationDelay: '450ms' }} />
+              <span className="w-1 bg-(--success) rounded-full animate-[bounce_0.5s_ease-in-out_infinite]" style={{ height: '60%', animationDelay: '0ms' }} />
+              <span className="w-1 bg-(--success) rounded-full animate-[bounce_0.5s_ease-in-out_infinite]" style={{ height: '100%', animationDelay: '150ms' }} />
+              <span className="w-1 bg-(--success) rounded-full animate-[bounce_0.5s_ease-in-out_infinite]" style={{ height: '40%', animationDelay: '300ms' }} />
+              <span className="w-1 bg-(--success) rounded-full animate-[bounce_0.5s_ease-in-out_infinite]" style={{ height: '80%', animationDelay: '450ms' }} />
             </div>
           </div>
         )}

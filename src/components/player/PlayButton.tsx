@@ -55,7 +55,7 @@ export function PlayButton({ radio, size = 'md', className }: PlayButtonProps) {
       disabled={showLoading}
       className={cn(
         'flex items-center justify-center rounded-full transition-all',
-        'bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)]',
+        'bg-(--primary) text-white hover:bg-(--primary-hover)',
         'hover:scale-105 active:scale-95',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         sizes[size],
