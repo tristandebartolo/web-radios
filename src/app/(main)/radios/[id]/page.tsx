@@ -78,11 +78,11 @@ export default async function RadioPage({ params }: RadioPageProps) {
     <div className="pb-24">
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm">
-        <Link href="/radios" className="text-(--muted) hover:text-(--foreground) transition-colors">
+        <Link href="/radios" className="text-(--muted) hover:text-foreground transition-colors ">
           Radios
         </Link>
         <span className="mx-2 text-(--muted)">/</span>
-        <span className="text-(--foreground)">{radio.name}</span>
+        <span className="text-foreground">{radio.name}</span>
       </nav>
 
       {/* Radio Info */}
@@ -128,7 +128,7 @@ export default async function RadioPage({ params }: RadioPageProps) {
                   <Link
                     key={genre.id}
                     href={`/radios?genre=${genre.slug}`}
-                    className="px-3 py-1 text-sm rounded-full bg-(--primary)/10 text-(--primary) hover:bg-(--primary)/20 transition-colors"
+                    className="px-3 py-1 text-sm rounded-full bg-(--primary)/10 text-(--primary) hover:bg-(--primary)/20 transition-colors "
                   >
                     {genre.name}
                   </Link>
@@ -145,7 +145,7 @@ export default async function RadioPage({ params }: RadioPageProps) {
 
             {/* Stream info */}
             <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
-              <span className="px-3 py-1 text-sm rounded-full bg-(--secondary) text-(--foreground)">
+              <span className="px-3 py-1 text-sm rounded-full bg-(--secondary) text-foreground">
                 {radio.streamType}
               </span>
             </div>
@@ -164,7 +164,7 @@ export default async function RadioPage({ params }: RadioPageProps) {
       {/* Similar Radios */}
       {similarRadios.length > 0 && (
         <section>
-          <h2 className="text-2xl font-bold mb-6">Radios similaires</h2>
+          <h2 className="text-3xl mb-6 font-cinderela">Radios similaires</h2>
           <RadioGrid radios={similarRadios} />
         </section>
       )}

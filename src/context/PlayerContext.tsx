@@ -192,7 +192,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: radio.name,
-        artist: radio.description || 'WebRadios',
+        artist: radio.description || 'ElvisRadios',
         album: radio.genres.map((g) => g.name).join(', ') || 'Radio',
         artwork: radio.logoUrl
           ? [{ src: radio.logoUrl, sizes: '512x512', type: 'image/png' }]

@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 @import "../../fonts/webradio/style.css";
+@font-face {
+  font-family: 'Cinderela Personal Use';
+  src: url(../../fonts/Cinderela/Cinderela-Personal-Use.woff2) format('woff2');
+}
 :root {
   --background: #0a0a0f;
   --foreground: #e5e5e5;
@@ -14,6 +18,12 @@
   --success: #22c55e;
   --error: #ef4444;
   --warning: #f59e0b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-cinderela: 'Cinderela Personal Use';
 }
 
 * {
@@ -104,10 +114,15 @@ body {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
+ background: linear-gradient(135deg, var(--primary), var(--accent));
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  line-height: 1;                 /* augmente un peu l'espace entre lignes */
+  padding: 0.25em 0.15em 0.35em 0.15em;   /* haut / droite / bas / gauche – on compense plus le bas souvent */
+  margin: -0.25em -0.15em -0.35em -0.15em;
 }
 
 /* Glass effect */
@@ -154,4 +169,20 @@ select option {
 
 .ff-card {
   z-index: 0;
+}
+
+/* Audio wave animation */
+@keyframes sound-wave {
+  0%, 100% {
+    height: 4px;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+.audio-wave-bar {
+  background: linear-gradient(to top, var(--primary), var(--accent));
+  animation: sound-wave 0.8s ease-in-out infinite;
+  min-height: 4px;
 }

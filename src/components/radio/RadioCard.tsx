@@ -22,7 +22,7 @@ export function RadioCard({ radio }: RadioCardProps) {
       className={cn(
         'group relative glass rounded-2xl p-4 transition-all duration-300',
         'hover:bg-(--card-hover) hover:scale-[1.02]',
-        isActive && 'ring-2 ring-(--primary) animate-pulse-glow'
+        isActive && 'ring-2 ring-(--primary)'
       )}
     >
       {/* Logo */}

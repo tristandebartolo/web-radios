@@ -4,30 +4,19 @@ import { UserMenu } from "@/components/auth/UserMenu";
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <header className="sticky top-0 left-0 right-0 z-50 w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-5">
-              <Link href="/" className="text-xl font-bold gradient-text">
-                WebRadios
-              </Link>
-              <Link href="/radios" className="text-md text-(--muted) hover:text-(--foreground) transition-colors">
-                Radios
-              </Link>
-              <Link href="/favorites" className="text-md text-(--muted) hover:text-(--foreground) transition-colors">
-                Favoris
-              </Link>
-            </div>
-            <UserMenu />
-          </div>
-        </div>
-      </header>
 
       {/* Hero */}
       <main className="flex min-h-screen flex-col items-center justify-center p-8 pt-24">
-        <div className="text-center animate-slide-up">
-          <h1 className="text-5xl font-bold gradient-text mb-4">WebRadios</h1>
+        <div className="text-center animate-slide-up w-full">
+          <h1 className="p-8">
+            <Link
+              href="/radios"
+              className="text-7xl md:text-9xl gradient-text font-cinderela w-full"
+            >
+              Elvis Rds
+            </Link>
+          </h1>
+
           <p className="text-xl text-(--muted) mb-8">
             Votre application de streaming radio moderne
           </p>

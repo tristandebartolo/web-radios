@@ -33,14 +33,14 @@ export function UserMenu() {
           href="/login"
           className="px-4 py-2 text-sm font-medium text-(--foreground) hover:text-(--primary) transition-colors"
         >
-          Connexion
+          <span className="wrd-face"></span>
         </Link>
-        <Link
+        {/* <Link
           href="/register"
           className="px-4 py-2 text-sm font-medium bg-(--primary) text-white rounded-lg hover:bg-(--primary-hover) transition-colors"
         >
           Inscription
-        </Link>
+        </Link> */}
       </div>
     );
   }

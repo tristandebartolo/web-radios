@@ -78,6 +78,16 @@ export function RegisterForm() {
       )}
 
       <Input
+        id="code"
+        name="code"
+        type="text"
+        label="Code d'invitation"
+        placeholder="Merci de renseigner votre code d'invitation"
+        required
+        autoComplete="name"
+      />
+
+      <Input
         id="name"
         name="name"
         type="text"
@@ -118,9 +128,9 @@ export function RegisterForm() {
         autoComplete="new-password"
       />
 
-      <Button type="submit" className="w-full" isLoading={isLoading}>
+      {/* <Button type="submit" className="w-full" isLoading={isLoading}>
         Créer un compte
-      </Button>
+      </Button> */}
     </form>
   );
 }

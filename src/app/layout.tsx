@@ -4,6 +4,7 @@ import { PlayerProvider } from '@/context/PlayerContext';
 import { FavoritesProvider } from '@/context/FavoritesContext';
 import { PlayerBar } from '@/components/player/PlayerBar';
 import './globals.css';
+import { CookieConsent } from '@/components/ui/Cookies/CookieConsent';
 
 export const metadata: Metadata = {
   title: {
@@ -13,6 +14,12 @@ export const metadata: Metadata = {
   description: 'Application moderne pour écouter vos webradios préférées. Flux HLS et MP3 supportés.',
   keywords: ['radio', 'webradio', 'streaming', 'music', 'hls', 'audio'],
   authors: [{ name: 'WebRadios Team' }],
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'WebRadios',
+  },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
@@ -39,6 +46,7 @@ export default function RootLayout({
             <PlayerProvider>
               {children}
               <PlayerBar />
+              <CookieConsent />
             </PlayerProvider>
           </FavoritesProvider>
         </AuthProvider>
