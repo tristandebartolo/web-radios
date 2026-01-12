@@ -32,6 +32,20 @@ const nextConfig: NextConfig = {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
           },
+           // === PARTIE CRITIQUE POUR RÉSOUDRE LE PROBLÈME localhost ===
+          {
+            key: 'X-Forwarded-Proto',
+            value: 'https', // Force https (ton domaine est en HTTPS)
+          },
+          {
+            key: 'X-Forwarded-Host',
+            value: 'radios.tissudemensonges.fr', // Ton domaine exact
+          },
+          // Optionnel mais souvent utile
+          // {
+          //   key: 'X-Forwarded-For',
+          //   value: '127.0.0.1', // ou laisser vide / dynamique si possible
+          // },
         ],
       },
     ];
