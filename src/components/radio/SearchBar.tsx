@@ -69,7 +69,7 @@ export function SearchBar({ genres }: SearchBarProps) {
           placeholder="Rechercher une radio..."
           value={search}
           onChange={(e) => updateSearch(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 rounded-xl bg-(--secondary) border border-(--border) text-(--foreground) placeholder:text-(--muted) focus:outline-none focus:ring-2 focus:ring-(--primary) focus:border-transparent transition-all"
+          className="w-full pl-12 pr-4 py-3 rounded-xl bg-(--secondary) border border-(--border) text-foreground placeholder:text-(--muted) focus:outline-none focus:ring-2 focus:ring-(--primary) focus:border-transparent transition-all"
         />
         {isPending && (
           <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -88,7 +88,7 @@ export function SearchBar({ genres }: SearchBarProps) {
           className={`px-4 py-2 text-sm rounded-full transition-colors ${
             !currentGenre
               ? 'bg-(--primary) text-white'
-              : 'bg-(--secondary) text-(--foreground) hover:bg-(--card-hover)'
+              : 'bg-(--secondary) text-foreground hover:bg-(--card-hover)'
           }`}
         >
           Tous
@@ -100,7 +100,7 @@ export function SearchBar({ genres }: SearchBarProps) {
             className={`px-4 py-2 text-sm rounded-full transition-colors ${
               currentGenre === genre.slug
                 ? 'bg-(--primary) text-white'
-                : 'bg-(--secondary) text-(--foreground) hover:bg-(--card-hover)'
+                : 'bg-(--secondary) text-foreground hover:bg-(--card-hover)'
             }`}
           >
             {genre.name}

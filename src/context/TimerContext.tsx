@@ -44,7 +44,7 @@ const TimerContext = createContext<TimerContextType | null>(null);
 const ALARMS_STORAGE_KEY = 'webradios_alarms';
 
 export function TimerProvider({ children }: { children: ReactNode }) {
-  const { pause, play, currentRadio } = usePlayer();
+  const { pause, play } = usePlayer();
   const sleepTimerRef = useRef<NodeJS.Timeout | null>(null);
   const alarmCheckRef = useRef<NodeJS.Timeout | null>(null);
   const lastTriggeredAlarmRef = useRef<string | null>(null);

@@ -221,7 +221,7 @@ export function RadiosPageClient({
               placeholder="Rechercher une radio..."
               value={filters.search}
               onChange={(e) => updateFilter("search", e.target.value)}
-              className="w-full pl-12 pr-4 py-2.5 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) placeholder:text-(--muted) focus:outline-none focus:ring-2 focus:ring-(--primary) focus:border-transparent"
+              className="w-full pl-12 pr-4 py-2.5 rounded-lg bg-(--secondary) border border-(--border) text-foreground placeholder:text-(--muted) focus:outline-none focus:ring-2 focus:ring-(--primary) focus:border-transparent"
             />
           </div>
 
@@ -232,7 +232,7 @@ export function RadiosPageClient({
               className={`px-3 py-2 transition-colors ${
                 filters.viewMode === "grid"
                   ? "bg-(--primary) text-white"
-                  : "bg-(--secondary) text-(--muted) hover:text-(--foreground)"
+                  : "bg-(--secondary) text-(--muted) hover:text-foreground"
               }`}
               aria-label="Vue grille"
             >
@@ -245,7 +245,7 @@ export function RadiosPageClient({
               className={`px-3 py-2 transition-colors ${
                 filters.viewMode === "list"
                   ? "bg-(--primary) text-white"
-                  : "bg-(--secondary) text-(--muted) hover:text-(--foreground)"
+                  : "bg-(--secondary) text-(--muted) hover:text-foreground"
               }`}
               aria-label="Vue liste"
             >
