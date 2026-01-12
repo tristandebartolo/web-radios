@@ -12,7 +12,7 @@ interface PlayButtonProps {
 export function PlayButton({ radio, size = 'md', className }: PlayButtonProps) {
   const { currentRadio, isPlaying, isLoading, play, pause, resume } = usePlayer();
 
-  const isCurrentRadio = radio && currentRadio?.id === radio.id;
+  const isCurrentRadio = radio ? currentRadio?.id === radio.id : true;
   const showPause = isCurrentRadio ? isPlaying : false;
   const showLoading = isCurrentRadio ? isLoading : false;
 

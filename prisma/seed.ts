@@ -152,9 +152,17 @@ async function main() {
       .filter(Boolean)
       .map((id) => ({ id }));
 
+    // Générer un slug propre basé sur le nom
+    const radioSlug = radio.name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Supprimer les accents
+      .replace(/[^a-z0-9]+/g, '-') // Remplacer les caractères spéciaux par des tirets
+      .replace(/^-+|-+$/g, ''); // Supprimer les tirets en début et fin
+
     await prisma.radio.upsert({
       where: {
-        id: `seed-${radio.name.toLowerCase().replace(/\s+/g, '-')}`,
+        id: radioSlug,
       },
       update: {
         genres: {
@@ -162,7 +170,7 @@ async function main() {
         },
       },
       create: {
-        id: `seed-${radio.name.toLowerCase().replace(/\s+/g, '-')}`,
+        id: radioSlug,
         name: radio.name,
         streamUrl: radio.streamUrl,
         streamType: radio.streamType,

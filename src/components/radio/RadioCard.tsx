@@ -1,8 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePlayer, type RadioForPlayer } from '@/context/PlayerContext';
 import { PlayButton } from '@/components/player/PlayButton';
+import { FavoriteButton } from '@/components/radio/FavoriteButton';
 import { cn } from '@/lib/utils/cn';
 
 interface RadioCardProps {
@@ -50,8 +52,9 @@ export function RadioCard({ radio }: RadioCardProps) {
           <PlayButton radio={radio} size="lg" />
         </div>
 
-        {/* Stream type badge */}
-        <div className="absolute top-2 right-2">
+        {/* Stream type badge & Favorite button */}
+        <div className="absolute top-2 right-2 flex items-center gap-1">
+          <FavoriteButton radioId={radio.id} size="sm" />
           <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-black/60 text-white backdrop-blur-sm">
             {radio.streamType}
           </span>
@@ -72,9 +75,13 @@ export function RadioCard({ radio }: RadioCardProps) {
 
       {/* Info */}
       <div>
-        <h3 className="font-semibold truncate mb-1">{radio.name}</h3>
+        <Link href={`/radios/${radio.id}`} className="block group/link">
+          <h3 className="font-semibold truncate mb-1 group-hover/link:text-(--primary) transition-colors">
+            {radio.name}
+          </h3>
+        </Link>
         {radio.description && (
-          <p className="text-sm text-[var(--muted)] truncate mb-2">
+          <p className="text-sm text-(--muted) truncate mb-2">
             {radio.description}
           </p>
         )}
@@ -84,13 +91,13 @@ export function RadioCard({ radio }: RadioCardProps) {
           {radio.genres.slice(0, 2).map((genre) => (
             <span
               key={genre.id}
-              className="px-2 py-0.5 text-xs rounded-full bg-[var(--primary)]/10 text-[var(--primary)]"
+              className="px-2 py-0.5 text-xs rounded-full bg-(--primary)/10 text-(--primary)"
             >
               {genre.name}
             </span>
           ))}
           {radio.genres.length > 2 && (
-            <span className="px-2 py-0.5 text-xs text-[var(--muted)]">
+            <span className="px-2 py-0.5 text-xs text-(--muted)">
               +{radio.genres.length - 2}
             </span>
           )}

@@ -115,10 +115,10 @@ function StatCard({
   href: string;
 }) {
   return (
-    <Link href={href} className="glass rounded-xl p-6 hover:bg-[var(--card-hover)] transition-colors">
+    <Link href={href} className="glass rounded-xl p-6 hover:bg-(--card-hover) transition-colors">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-[var(--muted)]">{title}</p>
+          <p className="text-sm text-(--muted)">{title}</p>
           <p className="text-3xl font-bold mt-1">{value}</p>
         </div>
         <span className="text-4xl">{icon}</span>

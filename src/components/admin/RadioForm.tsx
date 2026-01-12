@@ -20,6 +20,10 @@ interface Radio {
   description: string | null;
   country: string | null;
   region: string | null;
+  websiteUrl: string | null;
+  facebookUrl: string | null;
+  twitterUrl: string | null;
+  youtubeUrl: string | null;
   isActive: boolean;
   genreIds: string[];
 }
@@ -66,6 +70,10 @@ export function RadioForm({ radio, genres }: RadioFormProps) {
       description: formData.get('description') as string,
       country: formData.get('country') as string,
       region: formData.get('region') as string,
+      websiteUrl: formData.get('websiteUrl') as string,
+      facebookUrl: formData.get('facebookUrl') as string,
+      twitterUrl: formData.get('twitterUrl') as string,
+      youtubeUrl: formData.get('youtubeUrl') as string,
       genreIds: selectedGenres,
     };
 
@@ -221,6 +229,47 @@ export function RadioForm({ radio, genres }: RadioFormProps) {
           label="URL du logo"
           placeholder="https://example.com/logo.png"
           defaultValue={radio?.logoUrl || ''}
+        />
+      </div>
+
+      {/* Liens externes */}
+      <div className="space-y-4 pt-4 border-t border-[var(--border)]">
+        <h2 className="text-lg font-semibold">Liens externes</h2>
+
+        <Input
+          id="websiteUrl"
+          name="websiteUrl"
+          type="url"
+          label="Site web"
+          placeholder="https://www.maradio.com"
+          defaultValue={radio?.websiteUrl || ''}
+        />
+
+        <Input
+          id="facebookUrl"
+          name="facebookUrl"
+          type="url"
+          label="Facebook"
+          placeholder="https://www.facebook.com/maradio"
+          defaultValue={radio?.facebookUrl || ''}
+        />
+
+        <Input
+          id="twitterUrl"
+          name="twitterUrl"
+          type="url"
+          label="X (Twitter)"
+          placeholder="https://x.com/maradio"
+          defaultValue={radio?.twitterUrl || ''}
+        />
+
+        <Input
+          id="youtubeUrl"
+          name="youtubeUrl"
+          type="url"
+          label="YouTube"
+          placeholder="https://www.youtube.com/@maradio"
+          defaultValue={radio?.youtubeUrl || ''}
         />
       </div>
 

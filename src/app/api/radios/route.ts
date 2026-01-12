@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { name, streamUrl, streamType, logoUrl, description, country, region, genreIds } = body;
+    const { name, streamUrl, streamType, logoUrl, description, country, region, websiteUrl, facebookUrl, twitterUrl, youtubeUrl, genreIds } = body;
 
     if (!name || !streamUrl) {
       return NextResponse.json(
@@ -85,6 +85,10 @@ export async function POST(request: Request) {
         description: description || null,
         country: country || null,
         region: region || null,
+        websiteUrl: websiteUrl || null,
+        facebookUrl: facebookUrl || null,
+        twitterUrl: twitterUrl || null,
+        youtubeUrl: youtubeUrl || null,
         createdById: session.user.id,
         ...(genreIds?.length && {
           genres: {

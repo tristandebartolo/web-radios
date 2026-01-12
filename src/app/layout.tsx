@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 import { PlayerProvider } from '@/context/PlayerContext';
+import { FavoritesProvider } from '@/context/FavoritesContext';
+import { PlayerBar } from '@/components/player/PlayerBar';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -33,7 +35,12 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <body className="min-h-screen bg-(--background) text-(--foreground) antialiased">
         <AuthProvider>
-          <PlayerProvider>{children}</PlayerProvider>
+          <FavoritesProvider>
+            <PlayerProvider>
+              {children}
+              <PlayerBar />
+            </PlayerProvider>
+          </FavoritesProvider>
         </AuthProvider>
       </body>
     </html>

@@ -55,7 +55,7 @@ export async function PATCH(
 
     const { id } = await params;
     const body = await request.json();
-    const { name, streamUrl, streamType, logoUrl, description, country, region, isActive, genreIds } = body;
+    const { name, streamUrl, streamType, logoUrl, description, country, region, websiteUrl, facebookUrl, twitterUrl, youtubeUrl, isActive, genreIds } = body;
 
     const radio = await prisma.radio.findUnique({
       where: { id },
@@ -74,6 +74,10 @@ export async function PATCH(
     if (description !== undefined) updateData.description = description || null;
     if (country !== undefined) updateData.country = country || null;
     if (region !== undefined) updateData.region = region || null;
+    if (websiteUrl !== undefined) updateData.websiteUrl = websiteUrl || null;
+    if (facebookUrl !== undefined) updateData.facebookUrl = facebookUrl || null;
+    if (twitterUrl !== undefined) updateData.twitterUrl = twitterUrl || null;
+    if (youtubeUrl !== undefined) updateData.youtubeUrl = youtubeUrl || null;
     if (isActive !== undefined) updateData.isActive = isActive;
 
     if (streamType !== undefined) {

@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-
+@import "../../fonts/webradio/style.css";
 :root {
   --background: #0a0a0f;
   --foreground: #e5e5e5;

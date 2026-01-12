@@ -1,12 +1,13 @@
 import { Metadata } from 'next';
 import prisma from '@/lib/db/prisma';
-import { RadiosPageClient } from './RadiosPageClient';
+import { FavoritesPageClient } from './FavoritesPageClient';
 
 export const metadata: Metadata = {
-  title: 'Toutes les radios',
+  title: 'Mes favoris',
 };
 
-export default async function RadiosPage() {
+export default async function FavoritesPage() {
+  // Récupérer toutes les radios actives et genres pour le filtrage côté client
   const [radios, genres] = await Promise.all([
     prisma.radio.findMany({
       where: { isActive: true },
@@ -31,9 +32,5 @@ export default async function RadiosPage() {
     }),
   ]);
 
-  // Extraire les pays uniques
-  const countries = [...new Set(radios.map((r) => r.country).filter(Boolean))] as string[];
-  countries.sort((a, b) => a.localeCompare(b));
-
-  return <RadiosPageClient radios={radios} genres={genres} countries={countries} />;
+  return <FavoritesPageClient radios={radios} genres={genres} />;
 }

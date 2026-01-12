@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { UserMenu } from '@/components/auth/UserMenu';
-import { PlayerBar } from '@/components/player/PlayerBar';
 
 export default function MainLayout({
   children,
@@ -24,6 +23,12 @@ export default function MainLayout({
                 >
                   Radios
                 </Link>
+                <Link
+                  href="/favorites"
+                  className="text-sm text-(--muted) hover:text-(--foreground) transition-colors"
+                >
+                  Favoris
+                </Link>
               </nav>
             </div>
             <UserMenu />
@@ -35,8 +40,6 @@ export default function MainLayout({
       <main className="pt-20 pb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         {children}
       </main>
-      {/* Player bar */}
-      <PlayerBar />
     </div>
   );
 }
