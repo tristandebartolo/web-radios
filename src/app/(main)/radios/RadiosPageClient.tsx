@@ -183,7 +183,7 @@ export function RadiosPageClient({ radios, genres, countries }: RadiosPageClient
 
   return (
     <div className="pb-24">
-      <div className="mb-8">
+      <div className="relative z-30 mb-8">
         <h1 className="text-3xl font-bold gradient-text mb-2">Radios</h1>
         <p className="text-(--muted)">
           {filteredRadios.length} radio{filteredRadios.length > 1 ? 's' : ''} disponible{filteredRadios.length > 1 ? 's' : ''}
@@ -191,7 +191,7 @@ export function RadiosPageClient({ radios, genres, countries }: RadiosPageClient
       </div>
 
       {/* Filtres */}
-      <div className="glass rounded-2xl p-4 mb-8 space-y-4">
+      <div className="ff-filter relative z-30 glass rounded-2xl p-4 mb-8 space-y-4">
         {/* Ligne 1 : Recherche + Toggle vue */}
         <div className="flex gap-3">
           {/* Recherche */}

@@ -243,7 +243,7 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
       ) : (
         <>
           {/* Filtres */}
-          <div className="glass rounded-2xl p-4 mb-8 space-y-4">
+          <div className="relative z-30 glass rounded-2xl p-4 mb-8 space-y-4">
             {/* Recherche */}
             <div>
               <input

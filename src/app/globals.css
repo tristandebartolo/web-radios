@@ -147,3 +147,11 @@ select option {
     text-overflow: '';
   }
 }
+
+.ff-filter {
+  z-index: 50;
+}
+
+.ff-card {
+  z-index: 0;
+}

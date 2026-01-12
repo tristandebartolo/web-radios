@@ -130,7 +130,7 @@ async function main() {
       name: 'Jazz Radio',
       streamUrl: 'https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3',
       streamType: StreamType.MP3,
-      logoUrl: 'https://www.jazzradio.fr/uploads/images/logo-jazzradio.png',
+      logoUrl: 'https://www.jazzradio.fr/media/option/thumb/136x136_logo-jazzradio-52715.webp',
       description: 'Le meilleur du jazz',
       country: 'France',
       genres: ['jazz'],
