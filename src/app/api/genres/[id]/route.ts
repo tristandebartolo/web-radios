@@ -4,7 +4,7 @@ import prisma from '@/lib/db/prisma';
 
 // GET /api/genres/[id]
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -107,7 +107,7 @@ export async function PATCH(
 
 // DELETE /api/genres/[id] - Supprimer un genre (admin only)
 export async function DELETE(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {

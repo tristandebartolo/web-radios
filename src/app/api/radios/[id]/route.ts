@@ -5,7 +5,7 @@ import { StreamType } from '@prisma/client';
 
 // GET /api/radios/[id] - Détail d'une radio (public)
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -116,7 +116,7 @@ export async function PATCH(
 
 // DELETE /api/radios/[id] - Supprimer une radio (admin only)
 export async function DELETE(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {

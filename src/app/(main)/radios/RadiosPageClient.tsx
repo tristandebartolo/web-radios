@@ -252,7 +252,7 @@ export function RadiosPageClient({ radios, genres, countries }: RadiosPageClient
         {/* Ligne 2 : Filtres */}
         <div className="flex flex-wrap gap-3">
           {/* Filtre par genre */}
-          <div className="flex-1 min-w-[150px]">
+          <div className="flex-1 min-w-37.5">
             <label className="block text-xs text-(--muted) mb-1">Genre</label>
             <Select
               value={filters.genre}
@@ -266,7 +266,7 @@ export function RadiosPageClient({ radios, genres, countries }: RadiosPageClient
           </div>
 
           {/* Filtre par pays */}
-          <div className="flex-1 min-w-[150px]">
+          <div className="flex-1 min-w-37.5">
             <label className="block text-xs text-(--muted) mb-1">Pays</label>
             <Select
               value={filters.country}
@@ -280,7 +280,7 @@ export function RadiosPageClient({ radios, genres, countries }: RadiosPageClient
           </div>
 
           {/* Tri */}
-          <div className="flex-1 min-w-[150px]">
+          <div className="flex-1 min-w-37.5">
             <label className="block text-xs text-(--muted) mb-1">Trier par</label>
             <Select
               value={filters.sortField}
@@ -293,7 +293,7 @@ export function RadiosPageClient({ radios, genres, countries }: RadiosPageClient
           </div>
 
           {/* Ordre */}
-          <div className="min-w-[100px]">
+          <div className="min-w-25">
             <label className="block text-xs text-(--muted) mb-1">Ordre</label>
             <button
               onClick={() => updateFilter('sortOrder', filters.sortOrder === 'asc' ? 'desc' : 'asc')}
