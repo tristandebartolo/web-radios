@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { auth } from '@/lib/auth';
 import prisma from '@/lib/db/prisma';
 import { Role } from '@prisma/client';
 
-// GET /api/admin/users/[id]
+// GET /api/admin/users/[id] - Récupérer un utilisateur (admin only)
 export async function GET(
-  // request: Request,
+  // req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -41,9 +41,9 @@ export async function GET(
   }
 }
 
-// PATCH /api/admin/users/[id]
+// PATCH /api/admin/users/[id] - Modifier un utilisateur (admin only)
 export async function PATCH(
-  request: Request,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -54,7 +54,7 @@ export async function PATCH(
     }
 
     const { id } = await params;
-    const body = await request.json();
+    const body = await req.json();
     const { name, role, newPassword } = body;
 
     const user = await prisma.user.findUnique({
@@ -65,11 +65,15 @@ export async function PATCH(
       return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 });
     }
 
-    // Build update data
-    const updateData: { name?: string | null; role?: Role; passwordHash?: string } = {};
+    // Construction des données à mettre à jour
+    const updateData: {
+      name?: string | null;
+      role?: Role;
+      passwordHash?: string;
+    } = {};
 
     if (name !== undefined) {
-      updateData.name = name;
+      updateData.name = name || null;
     }
 
     if (role && (role === 'USER' || role === 'ADMIN')) {
@@ -105,9 +109,9 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/admin/users/[id]
+// DELETE /api/admin/users/[id] - Supprimer un utilisateur (admin only)
 export async function DELETE(
-  request: Request,
+  // req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -119,7 +123,7 @@ export async function DELETE(
 
     const { id } = await params;
 
-    // Prevent self-deletion
+    // Empêcher l'auto-suppression
     if (id === session.user.id) {
       return NextResponse.json(
         { error: 'Vous ne pouvez pas supprimer votre propre compte' },
