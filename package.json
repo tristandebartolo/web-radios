@@ -1,41 +1,44 @@
 {
-  "name": "next-webradios",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "prisma generate && next build",
-    "start": "next start",
-    "lint": "next lint",
-    "postinstall": "prisma generate",
-    "db:push": "prisma db push",
-    "db:seed": "prisma db seed",
-    "db:studio": "prisma studio",
-    "db:reset": "rm -f prisma/webradios.db && prisma db push && prisma db seed"
-  },
-  "dependencies": {
-    "next": "^16.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next-auth": "5.0.0-beta.25",
-    "@prisma/client": "^6.2.0",
-    "bcryptjs": "^2.4.3",
-    "hls.js": "^1.5.0",
-    "clsx": "^2.1.0",
-    "tailwind-merge": "^2.6.0"
-  },
-  "devDependencies": {
-    "@types/node": "^22.10.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@types/bcryptjs": "^2.4.6",
-    "prisma": "^6.2.0",
-    "typescript": "^5.7.0",
-    "tailwindcss": "^5.0.0",
-    "@tailwindcss/postcss": "^5.0.0",
-    "postcss": "^8.5.0",
-    "tsx": "^4.19.0",
-    "eslint": "^9.17.0",
-    "eslint-config-next": "^16.0.0"
-  }
+	"name": "next-webradios",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "prisma generate && next build",
+		"start": "next start",
+		"lint": "next lint",
+		"postinstall": "prisma generate",
+		"db:push": "prisma db push",
+		"db:seed": "prisma db seed",
+		"db:studio": "prisma studio",
+		"db:reset": "rm -f prisma/webradios.db && prisma db push && prisma db seed"
+	},
+	"prisma": {
+		"seed": "tsx prisma/seed.ts"
+	},
+	"dependencies": {
+		"next": "^16.0.0",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"next-auth": "5.0.0-beta.25",
+		"@prisma/client": "^6.2.0",
+		"bcryptjs": "^2.4.3",
+		"hls.js": "^1.5.0",
+		"clsx": "^2.1.0",
+		"tailwind-merge": "^2.6.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.10.0",
+		"@types/react": "^19.0.0",
+		"@types/react-dom": "^19.0.0",
+		"@types/bcryptjs": "^2.4.6",
+		"prisma": "^6.2.0",
+		"typescript": "^5.7.0",
+		"tailwindcss": "^5.0.0",
+		"@tailwindcss/postcss": "^5.0.0",
+		"postcss": "^8.5.0",
+		"tsx": "^4.19.0",
+		"eslint": "^9.17.0",
+		"eslint-config-next": "^16.0.0"
+	}
 }
