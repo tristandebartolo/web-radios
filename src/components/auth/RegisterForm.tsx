@@ -20,7 +20,14 @@ export function RegisterForm() {
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
+    const codeElvis = formData.get('code') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
+    
+    if (codeElvis !== process.env.NEXT_PUBLIC_CODE_CLUB) {
+      setError("Le code d'invitation n'est pas valide");
+      setIsLoading(false);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Les mots de passe ne correspondent pas');
@@ -84,7 +91,7 @@ export function RegisterForm() {
         label="Code d'invitation"
         placeholder="Merci de renseigner votre code d'invitation"
         required
-        autoComplete="name"
+        autoComplete="code"
       />
 
       <Input
@@ -128,9 +135,9 @@ export function RegisterForm() {
         autoComplete="new-password"
       />
 
-      {/* <Button type="submit" className="w-full" isLoading={isLoading}>
+      <Button type="submit" className="w-full" isLoading={isLoading}>
         Créer un compte
-      </Button> */}
+      </Button>
     </form>
   );
 }

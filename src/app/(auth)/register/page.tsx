@@ -12,7 +12,7 @@ export default function RegisterPage() {
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold gradient-text mb-2">Inscription</h1>
         <p className="text-(--muted)">
-          Rejoignez WebRadios gratuitement
+          Rejoignez Elvis Rds 
         </p>
       </div>
 
