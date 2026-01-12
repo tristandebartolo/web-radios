@@ -6,7 +6,7 @@ import { Role } from '@prisma/client';
 
 // GET /api/admin/users/[id] - Récupérer un utilisateur (admin only)
 export async function GET(
-  // req: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -111,7 +111,7 @@ export async function PATCH(
 
 // DELETE /api/admin/users/[id] - Supprimer un utilisateur (admin only)
 export async function DELETE(
-  // req: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
