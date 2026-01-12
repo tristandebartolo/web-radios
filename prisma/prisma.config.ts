@@ -1,11 +1,12 @@
+// prisma/prisma.config.ts
+import { defineConfig } from 'prisma/config';
 import path from 'node:path';
-import type { PrismaConfig } from 'prisma';
 
-export default {
-  earlyAccess: [],
+export default defineConfig({
   schema: path.join(__dirname, 'schema.prisma'),
 
-  seed: {
-    command: 'tsx prisma/seed.ts',
+  migrations: {
+    path: path.join(__dirname, 'migrations'),
+    seed: 'tsx prisma/seed.ts',
   },
-} satisfies PrismaConfig;
+});
