@@ -82,10 +82,27 @@ log "SUCCESS" "Build terminé"
 # Redémarrage
 # -----------------------------------------------------------------------------
 log "INFO" "Démarrage de l'application..."
-pm2 start npm --name "$APP_NAME" -- start -- --port 3007 >/dev/null 2>&1
-
+# 
 # Petite attente pour laisser pm2 démarrer
 sleep 5
+
+echo -n "En cours "
+
+pm2 start npm --name "$APP_NAME" -- start -- --port 3007 >/dev/null 2>&1
+# Les différents caractères du spinner
+spinners="/-\|"
+i=0
+
+end=$((SECONDS+5))  # fin dans 5 secondes
+
+while [ $SECONDS -lt $end ]; do
+    printf "\b${spinners:$((i%4)):1}"
+    sleep 0.15
+    ((i++))
+done
+
+printf "\b " # efface le dernier spinner
+log "SUCCESS" "Terminé !"
 
 # Vérification rapide de l'état
 if pm2 describe "$APP_NAME" >/dev/null 2>&1; then
