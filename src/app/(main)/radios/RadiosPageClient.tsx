@@ -27,7 +27,7 @@ type SortField = "name" | "country";
 type SortOrder = "asc" | "desc";
 type ViewMode = "grid" | "list";
 
-const LIMIT = 5;
+const LIMIT = 20;
 
 interface FiltersState {
   search: string;
