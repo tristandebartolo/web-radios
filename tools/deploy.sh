@@ -1,6 +1,6 @@
+#!/usr/bin/env bash
 
-# kill -HUP "$CADDY_PID" 2>/dev/null || true
-
+set -euo pipefail
 # Vérification qu'un paramètre a été passé
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <nom-de-l-application>"
@@ -9,6 +9,7 @@ if [ $# -ne 1 ]; then
 fi
 
 APP_NAME="$1"
+echo $APP_NAME
 
 CADDY_PID=$(./get-caddy-pid.sh $1)
 echo $CADDY_PID
