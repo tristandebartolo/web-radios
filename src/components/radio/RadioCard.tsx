@@ -100,17 +100,14 @@ export function RadioCard({ radio }: RadioCardProps) {
           )}
 
           {/* Genres */}
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 items-center">
             {radio.genres.slice(0, 2).map((genre) => (
-              <span
-                key={genre.id}
-                className="px-2 py-0.5 text-xs rounded-full bg-(--primary)/10 text-(--primary)"
-              >
+              <Link key={genre.id} href={`/radios?genre=${genre.slug}`} className="px-2 py-1 text-xs rounded-full bg-(--primary)/10 text-(--primary)">
                 {genre.name}
-              </span>
+              </Link>
             ))}
             {radio.genres.length > 2 && (
-              <span className="px-2 py-0.5 text-xs text-(--muted)">
+              <span className="px-1 py-0.5 text-xs text-(--muted)">
                 +{radio.genres.length - 2}
               </span>
             )}
