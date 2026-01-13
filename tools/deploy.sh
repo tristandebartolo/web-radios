@@ -91,7 +91,7 @@ sleep 2
 if pm2 describe "$APP_NAME" >/dev/null 2>&1; then
     log "SUCCESS" "Application ${APP_NAME} redémarrée avec succès"
     log "INFO"   "Statut actuel :"
-    pm2 show "$APP_NAME" | grep -E "status|pid|uptime|cpu|mem"
+    pm2 list
 else
     log "ERROR" "Échec du démarrage de l'application (pm2 describe a échoué)"
     exit 1
