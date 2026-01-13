@@ -20,12 +20,12 @@ export function RadioCard({ radio }: RadioCardProps) {
   return (
     <div
       className={cn(
-        "group relative rounded-2xl p-px transition-all duration-300",
+        "group relative rounded-2xl p-px transition-all duration-300 flex",
         "hover:bg-(--card-hover) hover:scale-[1.02]",
         isActive && "bg-linear-to-r from-blue-500 to-purple-500"
       )}
     >
-      <div className="bg-gray-900 p-3 rounded-2xl">
+      <div className="bg-gray-900 p-3 rounded-2xl w-full">
         {/* Logo */}
         <div className="relative aspect-square mb-4 rounded-xl overflow-hidden bg-(--secondary)">
           {radio.logoUrl ? (
