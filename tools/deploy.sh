@@ -25,3 +25,14 @@ if [[ -z "$PID" || ! "$PID" =~ ^[0-9]+$ ]]; then
 fi
 
 echo $PID
+
+pm2 delete $PID
+
+rm -R .next
+
+git pull
+
+yarn build
+
+pm2 start npm --name $APP_NAME -- start -- --port 3007
+
