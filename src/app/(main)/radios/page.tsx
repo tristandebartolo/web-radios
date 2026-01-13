@@ -1,10 +1,24 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import prisma from '@/lib/db/prisma';
 import { RadiosPageClient } from './RadiosPageClient';
 
 export const metadata: Metadata = {
   title: 'Toutes les radios',
 };
+
+function RadiosPageLoading() {
+  return (
+    <div className="pb-24">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold gradient-text mb-2 font-cinderela">
+          Radios
+        </h1>
+        <p className="text-(--muted)">Chargement...</p>
+      </div>
+    </div>
+  );
+}
 
 export default async function RadiosPage() {
   const [genres, countriesResult] = await Promise.all([
@@ -26,5 +40,9 @@ export default async function RadiosPage() {
 
   const countries = countriesResult.map((r) => r.country).filter(Boolean) as string[];
 
-  return <RadiosPageClient genres={genres} countries={countries} />;
+  return (
+    <Suspense fallback={<RadiosPageLoading />}>
+      <RadiosPageClient genres={genres} countries={countries} />
+    </Suspense>
+  );
 }
