@@ -15,54 +15,21 @@ if [ $# -ne 1 ]; then
 fi
 
 APP_NAME="$1"
-
 PID=""
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Méthode 1 : pm2 jlist + jq (la plus fiable quand jq est installé)
-# ──────────────────────────────────────────────────────────────────────────────
-if command -v jq >/dev/null 2>&1; then
-    # Recherche dans les métriques custom (souvent caddy.pid)
-    PID=$(pm2 jlist 2>/dev/null | jq -r --arg name "$APP_NAME" '
-        .[] 
-        | select(.name == $name) 
-        | .pm2_env.axm_monitor.caddy?.pid?.value // 
-          .pm2_env.axm_monitor."caddy.pid"?.value // 
-          .pm2_env.axm_monitor."Caddy PID"?.value // 
-          empty
-    ' 2>/dev/null)
+# Essai 1 - format le plus fréquent actuellement
+PID=$(pm2 jlist 2>/dev/null | jq -r --arg app "$APP" '
+    .[] | select(.name==$app) | .pm2_env.axm_monitor.caddy.pid.value // empty
+' 2>/dev/null)
 
-    # Si rien trouvé → on prend le PID principal de l'app (souvent c'est le même)
-    if [[ -z "$PID" || "$PID" == "null" ]]; then
-        PID=$(pm2 jlist 2>/dev/null | jq -r --arg name "$APP_NAME" '
-            .[] | select(.name == $name) | .pid // empty
-        ')
-    fi
-fi
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Méthode 2 : fallback sans jq
-# ──────────────────────────────────────────────────────────────────────────────
+# Essai 2 - fallback sur le PID principal (souvent c'est le même en réalité avec Caddy)
 if [[ -z "$PID" ]]; then
-    PID=$(pm2 describe "$APP_NAME" 2>/dev/null \
-        | grep -i -E 'caddy.*pid' \
-        | awk -F '│' '{print $3}' \
-        | tr -d '[:space:]' \
-        || true)
-
-    # Dernier recours : PID principal
-    [[ -z "$PID" ]] && PID=$(pm2 pid "$APP_NAME" 2>/dev/null || true)
+    PID=$(pm2 pid "$APP" 2>/dev/null)
 fi
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Vérification finale
-# ──────────────────────────────────────────────────────────────────────────────
 if [[ -z "$PID" || ! "$PID" =~ ^[0-9]+$ ]]; then
-    echo "Erreur : impossible de trouver le PID Caddy pour l'application '$APP_NAME'" >&2
-    echo "" >&2
-    echo "Commandes de debug possibles :" >&2
-    echo "  pm2 describe \"$APP_NAME\"" >&2
-    echo "  pm2 jlist | grep -A 15 \"$APP_NAME\"" >&2
+    echo "❌ Impossible de récupérer le PID Caddy de $APP" >&2
+    pm2 describe "$APP" >&2
     exit 1
 fi
 
