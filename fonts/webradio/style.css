@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'WebRadio';
-  src:  url('fonts/WebRadio.eot?7gsihu');
-  src:  url('fonts/WebRadio.eot?7gsihu#iefix') format('embedded-opentype'),
-    url('fonts/WebRadio.ttf?7gsihu') format('truetype'),
-    url('fonts/WebRadio.woff?7gsihu') format('woff'),
-    url('fonts/WebRadio.svg?7gsihu#WebRadio') format('svg');
+  src:  url('fonts/WebRadio.eot?5ua6ml');
+  src:  url('fonts/WebRadio.eot?5ua6ml#iefix') format('embedded-opentype'),
+    url('fonts/WebRadio.ttf?5ua6ml') format('truetype'),
+    url('fonts/WebRadio.woff?5ua6ml') format('woff'),
+    url('fonts/WebRadio.svg?5ua6ml#WebRadio') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.wrd-mobile-devices:before {
+  content: "\e98a";
+}
 .wrd-sort-amount-desc:before {
   content: "\e900";
 }
@@ -42,6 +45,91 @@
 }
 .wrd-sort-alpha-asc:before {
   content: "\e905";
+}
+.wrd-planet1:before {
+  content: "\e98c";
+}
+.wrd-soleil:before {
+  content: "\e98d";
+}
+.wrd-pacman:before {
+  content: "\e98e";
+}
+.wrd-nuke:before {
+  content: "\e98f";
+}
+.wrd-music_clef_treble:before {
+  content: "\e990";
+}
+.wrd-joconde:before {
+  content: "\e991";
+}
+.wrd-ghost1:before {
+  content: "\e992";
+}
+.wrd-ghost2:before {
+  content: "\e993";
+}
+.wrd-flower:before {
+  content: "\e994";
+}
+.wrd-floating_balloons:before {
+  content: "\e995";
+}
+.wrd-elvis:before {
+  content: "\e997";
+}
+.wrd-eclipse:before {
+  content: "\e998";
+}
+.wrd-duck_float:before {
+  content: "\e999";
+}
+.wrd-dj .path1:before {
+  content: "\e99b";
+  color: rgb(255, 255, 255);
+}
+.wrd-dj .path2:before {
+  content: "\e99c";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.wrd-dj .path3:before {
+  content: "\e99d";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.wrd-dj .path4:before {
+  content: "\e99e";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.wrd-dj .path5:before {
+  content: "\e99f";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.wrd-dj .path6:before {
+  content: "\e9a0";
+  margin-left: -1em;
+  color: rgb(0, 0, 0);
+}
+.wrd-dj .path7:before {
+  content: "\e9a1";
+  margin-left: -1em;
+  color: rgb(0, 0, 0);
+}
+.wrd-diamond1:before {
+  content: "\e9a2";
+}
+.wrd-cookies:before {
+  content: "\e9a5";
+}
+.wrd-cherries:before {
+  content: "\e9a6";
+}
+.wrd-boombox:before {
+  content: "\e9a7";
 }
 .wrd-error:before {
   content: "\e906";

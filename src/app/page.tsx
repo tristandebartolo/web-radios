@@ -11,9 +11,9 @@ export default function HomePage() {
           <h1 className="p-8">
             <Link
               href="/radios"
-              className="text-7xl md:text-9xl gradient-text font-cinderela w-full"
+              className="text-7xl md:text-8xl lg:text-9xl gradient-text font-cinderela w-full flex flex-col md:flex-row items-center justify-center"
             >
-              Elvis Rds
+              <span>Elvis</span><span className="text-9xl wrd-elvis"></span><span>Rds</span>
             </Link>
           </h1>
 
@@ -24,19 +24,22 @@ export default function HomePage() {
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
           <FeatureCard
-            icon="🎵"
+            icon="wrd-bolt"
             title="Flux HLS & MP3"
             description="Support natif des flux audio modernes"
+            fontSize="text-5xl"
           />
           <FeatureCard
-            icon="🌍"
+            icon="wrd-boombox"
             title="Radios du monde"
             description="Découvrez des stations du monde entier"
+            fontSize="text-5xl"
           />
           <FeatureCard
-            icon="📱"
+            icon="wrd-mobile-devices"
             title="Mobile friendly"
             description="Écoutez partout, même en arrière-plan"
+            fontSize="text-5xl"
           />
         </div>
       </main>
@@ -48,14 +51,18 @@ function FeatureCard({
   icon,
   title,
   description,
+  fontSize,
 }: {
   icon: string;
   title: string;
   description: string;
+  fontSize: string;
 }) {
   return (
     <div className="glass rounded-xl p-6 text-center">
-      <div className="text-4xl mb-3">{icon}</div>
+      <div className={`${fontSize} mb-3`}>
+        <span className={`${icon}`}></span>
+      </div>
       <h3 className="text-lg font-semibold mb-2">{title}</h3>
       <p className="text-sm text-(--muted)">{description}</p>
     </div>

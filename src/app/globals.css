@@ -18,11 +18,13 @@
   --success: #22c55e;
   --error: #ef4444;
   --warning: #f59e0b;
+  --gradient-primary: linear-gradient(to top, var(--primary), var(--accent));
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-grpri: var(--gradient-primary);
   --font-cinderela: 'Cinderela Personal Use';
 }
 
@@ -62,7 +64,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
 }
 
 /* Focus styles */
@@ -119,9 +121,8 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  display: inline-block;
-  line-height: 1;                 /* augmente un peu l'espace entre lignes */
-  padding: 0.25em 0.15em 0.35em 0.15em;   /* haut / droite / bas / gauche – on compense plus le bas souvent */
+  line-height: 1;
+  padding: 0.25em 0.15em 0.35em 0.15em;
   margin: -0.25em -0.15em -0.35em -0.15em;
 }
 
@@ -185,4 +186,12 @@ select option {
   background: linear-gradient(to top, var(--primary), var(--accent));
   animation: sound-wave 0.8s ease-in-out infinite;
   min-height: 4px;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+
+.gradient-border {
+  border: 2px solid var(--accent);
 }

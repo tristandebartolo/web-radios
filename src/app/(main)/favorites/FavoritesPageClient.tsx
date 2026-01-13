@@ -1,11 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
-import { useFavorites, FAVORITE_LEVELS, type FavoriteLevel } from '@/context/FavoritesContext';
-import { RadioGrid } from '@/components/radio/RadioGrid';
-import { Select } from '@/components/ui/Select';
-import type { RadioForPlayer } from '@/context/PlayerContext';
+import { useState, useEffect, useMemo } from "react";
+import Link from "next/link";
+import {
+  useFavorites,
+  FAVORITE_LEVELS,
+  type FavoriteLevel,
+} from "@/context/FavoritesContext";
+import { RadioGrid } from "@/components/radio/RadioGrid";
+import { Select } from "@/components/ui/Select";
+import type { RadioForPlayer } from "@/context/PlayerContext";
 
 interface Genre {
   id: string;
@@ -22,29 +26,29 @@ interface FavoritesPageClientProps {
   genres: Genre[];
 }
 
-type SortField = 'name' | 'addedAt' | 'level';
-type SortOrder = 'asc' | 'desc';
+type SortField = "name" | "addedAt" | "level";
+type SortOrder = "asc" | "desc";
 
-const FILTERS_STORAGE_KEY = 'webradios_favorites_filters';
+const FILTERS_STORAGE_KEY = "webradios_favorites_filters";
 
 interface FiltersState {
   search: string;
-  level: FavoriteLevel | 'all';
+  level: FavoriteLevel | "all";
   genre: string;
   sortField: SortField;
   sortOrder: SortOrder;
 }
 
 const defaultFilters: FiltersState = {
-  search: '',
-  level: 'all',
-  genre: '',
-  sortField: 'addedAt',
-  sortOrder: 'desc',
+  search: "",
+  level: "all",
+  genre: "",
+  sortField: "addedAt",
+  sortOrder: "desc",
 };
 
 function loadFiltersFromStorage(): FiltersState {
-  if (typeof window === 'undefined') return defaultFilters;
+  if (typeof window === "undefined") return defaultFilters;
 
   try {
     const stored = localStorage.getItem(FILTERS_STORAGE_KEY);
@@ -52,18 +56,18 @@ function loadFiltersFromStorage(): FiltersState {
       return { ...defaultFilters, ...JSON.parse(stored) };
     }
   } catch (error) {
-    console.error('Error loading filters from localStorage:', error);
+    console.error("Error loading filters from localStorage:", error);
   }
   return defaultFilters;
 }
 
 function saveFiltersToStorage(filters: FiltersState) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   try {
     localStorage.setItem(FILTERS_STORAGE_KEY, JSON.stringify(filters));
   } catch (error) {
-    console.error('Error saving filters to localStorage:', error);
+    console.error("Error saving filters to localStorage:", error);
   }
 }
 
@@ -73,7 +77,10 @@ const LEVEL_ORDER: Record<FavoriteLevel, number> = {
   top: 1,
 };
 
-export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps) {
+export function FavoritesPageClient({
+  radios,
+  genres,
+}: FavoritesPageClientProps) {
   const { favorites } = useFavorites();
   const [filters, setFilters] = useState<FiltersState>(defaultFilters);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -107,17 +114,22 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
       if (filters.search) {
         const searchLower = filters.search.toLowerCase();
         const nameMatch = radio.name.toLowerCase().includes(searchLower);
-        const descMatch = radio.description?.toLowerCase().includes(searchLower);
+        const descMatch = radio.description
+          ?.toLowerCase()
+          .includes(searchLower);
         if (!nameMatch && !descMatch) return false;
       }
 
       // Filtre par niveau
-      if (filters.level !== 'all' && favorite.level !== filters.level) {
+      if (filters.level !== "all" && favorite.level !== filters.level) {
         return false;
       }
 
       // Filtre par genre
-      if (filters.genre && !radio.genres.some((g) => g.slug === filters.genre)) {
+      if (
+        filters.genre &&
+        !radio.genres.some((g) => g.slug === filters.genre)
+      ) {
         return false;
       }
 
@@ -132,18 +144,18 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
       let comparison = 0;
 
       switch (filters.sortField) {
-        case 'name':
+        case "name":
           comparison = a.name.localeCompare(b.name);
           break;
-        case 'addedAt':
+        case "addedAt":
           comparison = favA.addedAt - favB.addedAt;
           break;
-        case 'level':
+        case "level":
           comparison = LEVEL_ORDER[favA.level] - LEVEL_ORDER[favB.level];
           break;
       }
 
-      return filters.sortOrder === 'asc' ? comparison : -comparison;
+      return filters.sortOrder === "asc" ? comparison : -comparison;
     });
 
     return result;
@@ -161,7 +173,10 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
     return genres.filter((g) => genreSlugs.has(g.slug));
   }, [radios, favorites, genres]);
 
-  function updateFilter<K extends keyof FiltersState>(key: K, value: FiltersState[K]) {
+  function updateFilter<K extends keyof FiltersState>(
+    key: K,
+    value: FiltersState[K]
+  ) {
     setFilters((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -170,37 +185,43 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
   }
 
   const hasActiveFilters =
-    filters.search !== '' ||
-    filters.level !== 'all' ||
-    filters.genre !== '' ||
-    filters.sortField !== 'addedAt' ||
-    filters.sortOrder !== 'desc';
+    filters.search !== "" ||
+    filters.level !== "all" ||
+    filters.genre !== "" ||
+    filters.sortField !== "addedAt" ||
+    filters.sortOrder !== "desc";
 
   // Générer la liste des filtres actifs
   const activeFilterTags = useMemo(() => {
     const tags: { key: string; label: string }[] = [];
 
     if (filters.search) {
-      tags.push({ key: 'search', label: `"${filters.search}"` });
+      tags.push({ key: "search", label: `"${filters.search}"` });
     }
-    if (filters.level !== 'all') {
+    if (filters.level !== "all") {
       const levelInfo = FAVORITE_LEVELS.find((l) => l.value === filters.level);
-      tags.push({ key: 'level', label: `${levelInfo?.emoji} ${levelInfo?.label}` });
+      tags.push({
+        key: "level",
+        label: `${levelInfo?.emoji} ${levelInfo?.label}`,
+      });
     }
     if (filters.genre) {
       const genreInfo = genres.find((g) => g.slug === filters.genre);
-      tags.push({ key: 'genre', label: genreInfo?.name || filters.genre });
+      tags.push({ key: "genre", label: genreInfo?.name || filters.genre });
     }
-    if (filters.sortField !== 'addedAt') {
+    if (filters.sortField !== "addedAt") {
       const sortLabels: Record<SortField, string> = {
-        name: 'Nom',
+        name: "Nom",
         addedAt: "Date d'ajout",
-        level: 'Niveau',
+        level: "Niveau",
       };
-      tags.push({ key: 'sort', label: `Tri: ${sortLabels[filters.sortField]}` });
+      tags.push({
+        key: "sort",
+        label: `Tri: ${sortLabels[filters.sortField]}`,
+      });
     }
-    if (filters.sortOrder !== 'desc') {
-      tags.push({ key: 'order', label: 'Ordre: Asc' });
+    if (filters.sortOrder !== "desc") {
+      tags.push({ key: "order", label: "Ordre: Asc" });
     }
 
     return tags;
@@ -219,12 +240,6 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
 
   return (
     <div className="pb-24">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold gradient-text mb-2">Mes favoris</h1>
-        <p className="text-(--muted)">
-          {favorites.length} radio{favorites.length > 1 ? 's' : ''} en favoris
-        </p>
-      </div>
 
       {favorites.length === 0 ? (
         <div className="text-center py-16">
@@ -250,7 +265,7 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
                 type="text"
                 placeholder="Rechercher une radio..."
                 value={filters.search}
-                onChange={(e) => updateFilter('search', e.target.value)}
+                onChange={(e) => updateFilter("search", e.target.value)}
                 className="w-full px-4 py-2.5 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) placeholder:text-(--muted) focus:outline-none focus:ring-2 focus:ring-(--primary) focus:border-transparent"
               />
             </div>
@@ -259,13 +274,17 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
             <div className="flex flex-wrap gap-3">
               {/* Filtre par niveau */}
               <div className="flex-1 min-w-37.5">
-                <label className="block text-xs text-(--muted) mb-1">Niveau</label>
+                <label className="block text-xs text-(--muted) mb-1">
+                  Niveau
+                </label>
                 <Select
                   value={filters.level}
-                  onChange={(value) => updateFilter('level', value as FavoriteLevel | 'all')}
+                  onChange={(value) =>
+                    updateFilter("level", value as FavoriteLevel | "all")
+                  }
                   placeholder="Tous les niveaux"
                   options={[
-                    { value: 'all', label: 'Tous les niveaux' },
+                    { value: "all", label: "Tous les niveaux" },
                     ...FAVORITE_LEVELS.map((level) => ({
                       value: level.value,
                       label: `${level.emoji} ${level.label}`,
@@ -276,13 +295,15 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
 
               {/* Filtre par genre */}
               <div className="flex-1 min-w-37.5">
-                <label className="block text-xs text-(--muted) mb-1">Genre</label>
+                <label className="block text-xs text-(--muted) mb-1">
+                  Genre
+                </label>
                 <Select
                   value={filters.genre}
-                  onChange={(value) => updateFilter('genre', value)}
+                  onChange={(value) => updateFilter("genre", value)}
                   placeholder="Tous les genres"
                   options={[
-                    { value: '', label: 'Tous les genres' },
+                    { value: "", label: "Tous les genres" },
                     ...availableGenres.map((genre) => ({
                       value: genre.slug,
                       label: genre.name,
@@ -293,26 +314,37 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
 
               {/* Tri */}
               <div className="flex-1 min-w-37.5">
-                <label className="block text-xs text-(--muted) mb-1">Trier par</label>
+                <label className="block text-xs text-(--muted) mb-1">
+                  Trier par
+                </label>
                 <Select
                   value={filters.sortField}
-                  onChange={(value) => updateFilter('sortField', value as SortField)}
+                  onChange={(value) =>
+                    updateFilter("sortField", value as SortField)
+                  }
                   options={[
-                    { value: 'addedAt', label: "Date d'ajout" },
-                    { value: 'name', label: 'Nom' },
-                    { value: 'level', label: 'Niveau' },
+                    { value: "addedAt", label: "Date d'ajout" },
+                    { value: "name", label: "Nom" },
+                    { value: "level", label: "Niveau" },
                   ]}
                 />
               </div>
 
               {/* Ordre */}
               <div className="min-w-25">
-                <label className="block text-xs text-(--muted) mb-1">Ordre</label>
+                <label className="block text-xs text-(--muted) mb-1">
+                  Ordre
+                </label>
                 <button
-                  onClick={() => updateFilter('sortOrder', filters.sortOrder === 'asc' ? 'desc' : 'asc')}
+                  onClick={() =>
+                    updateFilter(
+                      "sortOrder",
+                      filters.sortOrder === "asc" ? "desc" : "asc"
+                    )
+                  }
                   className="w-full px-3 py-2 rounded-lg bg-(--secondary) border border-(--border) text-(--foreground) hover:bg-(--card-hover) transition-colors flex items-center justify-center gap-2"
                 >
-                  {filters.sortOrder === 'asc' ? '↑ Asc' : '↓ Desc'}
+                  {filters.sortOrder === "asc" ? "↑ Asc" : "↓ Desc"}
                 </button>
               </div>
             </div>
@@ -321,7 +353,9 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
             {hasActiveFilters && (
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-(--border)">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm text-(--muted)">Filtres actifs :</span>
+                  <span className="text-sm text-(--muted)">
+                    Filtres actifs :
+                  </span>
                   {activeFilterTags.map((tag) => (
                     <span
                       key={tag.key}
@@ -342,15 +376,28 @@ export function FavoritesPageClient({ radios, genres }: FavoritesPageClientProps
             )}
           </div>
 
+          <div className="relative z-20 mb-8 flex gap-5">
+            <h1 className="text-2xl font-bold gradient-text mb-2 font-cinderela">
+              Mes favoris
+            </h1>
+            <p className="text-(--muted)">
+               {favorites.length} radio{favorites.length > 1 ? "s" : ""} en favoris
+            </p>
+          </div>
+
           {/* Résultats */}
           {filteredRadios.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-(--muted)">Aucune radio ne correspond à vos critères.</p>
+              <p className="text-(--muted)">
+                Aucune radio ne correspond à vos critères.
+              </p>
             </div>
           ) : (
             <>
               <p className="text-sm text-(--muted) mb-4">
-                {filteredRadios.length} radio{filteredRadios.length > 1 ? 's' : ''} trouvée{filteredRadios.length > 1 ? 's' : ''}
+                {filteredRadios.length} radio
+                {filteredRadios.length > 1 ? "s" : ""} trouvée
+                {filteredRadios.length > 1 ? "s" : ""}
               </p>
               <RadioGrid radios={filteredRadios} />
             </>

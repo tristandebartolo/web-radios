@@ -36,7 +36,7 @@ export function VolumeSlider() {
         step="0.01"
         value={displayVolume}
         onChange={(e) => setVolume(parseFloat(e.target.value))}
-        className="flex-1 h-1 bg-(--secondary) rounded-full appearance-none cursor-pointer
+        className="flex-1 h-1 bg-(--accent) rounded-full appearance-none cursor-pointer
           [&::-webkit-slider-thumb]:appearance-none
           [&::-webkit-slider-thumb]:w-3
           [&::-webkit-slider-thumb]:h-3
@@ -52,7 +52,7 @@ export function VolumeSlider() {
           [&::-moz-range-thumb]:border-0
           [&::-moz-range-thumb]:cursor-pointer"
         style={{
-          background: `linear-gradient(to right, var(--primary) ${displayVolume * 100}%, var(--secondary) ${displayVolume * 100}%)`,
+          background: `linear-gradient(to right, var(--accent) ${displayVolume * 100}%, var(--secondary) ${displayVolume * 100}%)`,
         }}
         aria-label="Volume"
       />

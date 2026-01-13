@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Button } from '@/components/ui/Button';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/Button";
 
 interface Genre {
   id: string;
@@ -34,7 +34,7 @@ export function RadiosList({ radios }: RadiosListProps) {
   const [togglingId, setTogglingId] = useState<string | null>(null);
 
   async function handleDelete(radioId: string) {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cette radio ?')) {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer cette radio ?")) {
       return;
     }
 
@@ -42,18 +42,18 @@ export function RadiosList({ radios }: RadiosListProps) {
 
     try {
       const response = await fetch(`/api/radios/${radioId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (!response.ok) {
         const data = await response.json();
-        alert(data.error || 'Erreur lors de la suppression');
+        alert(data.error || "Erreur lors de la suppression");
         return;
       }
 
       router.refresh();
     } catch {
-      alert('Une erreur est survenue');
+      alert("Une erreur est survenue");
     } finally {
       setDeletingId(null);
     }
@@ -64,20 +64,20 @@ export function RadiosList({ radios }: RadiosListProps) {
 
     try {
       const response = await fetch(`/api/radios/${radio.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isActive: !radio.isActive }),
       });
 
       if (!response.ok) {
         const data = await response.json();
-        alert(data.error || 'Erreur lors de la mise à jour');
+        alert(data.error || "Erreur lors de la mise à jour");
         return;
       }
 
       router.refresh();
     } catch {
-      alert('Une erreur est survenue');
+      alert("Une erreur est survenue");
     } finally {
       setTogglingId(null);
     }
@@ -99,7 +99,10 @@ export function RadiosList({ radios }: RadiosListProps) {
           </thead>
           <tbody className="divide-y divide-(--border)">
             {radios.map((radio) => (
-              <tr key={radio.id} className="hover:bg-(--secondary)/30 transition-colors">
+              <tr
+                key={radio.id}
+                className="hover:bg-(--secondary)/30 transition-colors"
+              >
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     {radio.logoUrl ? (
@@ -111,12 +114,14 @@ export function RadiosList({ radios }: RadiosListProps) {
                         className="rounded-lg object-cover"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-lg bg-(--secondary) flex items-center justify-center text-lg">
-                        📻
+                      <div className="w-10 h-10 rounded-lg bg-(--secondary) flex items-center justify-center text-4lg">
+                        <span className="wrd-radio"></span>
                       </div>
                     )}
                     <div>
-                      <p className="font-medium">{radio.name}</p>
+                      <Link href={`/radios/${radio.id}`}>
+                        <p className="font-medium">{radio.name}</p>
+                      </Link>
                       {radio.description && (
                         <p className="text-xs text-(--muted) truncate max-w-50">
                           {radio.description}
@@ -126,7 +131,7 @@ export function RadiosList({ radios }: RadiosListProps) {
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-(--secondary) text-(--foreground)">
+                  <span className="px-2 py-0.5 text-xs rounded-full bg-(--secondary) text-foreground">
                     {radio.streamType}
                   </span>
                 </td>
@@ -148,7 +153,7 @@ export function RadiosList({ radios }: RadiosListProps) {
                   </div>
                 </td>
                 <td className="px-6 py-4 text-sm text-(--muted)">
-                  {radio.country || '-'}
+                  {radio.country || "-"}
                 </td>
                 <td className="px-6 py-4">
                   <button
@@ -156,11 +161,15 @@ export function RadiosList({ radios }: RadiosListProps) {
                     disabled={togglingId === radio.id}
                     className={`px-2 py-0.5 text-xs rounded-full transition-colors ${
                       radio.isActive
-                        ? 'bg-(--success)/20 text-(--success)'
-                        : 'bg-(--error)/20 text-(--error)'
+                        ? "bg-(--success)/20 text-(--success)"
+                        : "bg-(--error)/20 text-(--error)"
                     }`}
                   >
-                    {togglingId === radio.id ? '...' : radio.isActive ? 'Actif' : 'Inactif'}
+                    {togglingId === radio.id
+                      ? "..."
+                      : radio.isActive
+                      ? "Actif"
+                      : "Inactif"}
                   </button>
                 </td>
                 <td className="px-6 py-4">

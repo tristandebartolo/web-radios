@@ -231,7 +231,7 @@ export function RadiosPageClient({
               onClick={() => updateFilter("viewMode", "grid")}
               className={`px-3 py-2 transition-colors ${
                 filters.viewMode === "grid"
-                  ? "bg-(--primary) text-white"
+                  ? "gradient-bg text-white"
                   : "bg-(--secondary) text-(--muted) hover:text-foreground"
               }`}
               aria-label="Vue grille"
@@ -244,7 +244,7 @@ export function RadiosPageClient({
               onClick={() => updateFilter("viewMode", "list")}
               className={`px-3 py-2 transition-colors ${
                 filters.viewMode === "list"
-                  ? "bg-(--primary) text-white"
+                  ? "gradient-bg text-white"
                   : "bg-(--secondary) text-(--muted) hover:text-foreground"
               }`}
               aria-label="Vue liste"

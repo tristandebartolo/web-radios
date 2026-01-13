@@ -55,8 +55,8 @@ export function PlayButton({ radio, size = 'md', className }: PlayButtonProps) {
       disabled={showLoading}
       className={cn(
         'flex items-center justify-center rounded-full transition-all',
-        'bg-(--primary) text-white hover:bg-(--primary-hover)',
-        'hover:scale-105 active:scale-95',
+        'gradient-bg text-white hover:bg-(--primary-hover)',
+        // 'hover:scale-105 active:scale-95',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         sizes[size],
         className
@@ -85,21 +85,9 @@ export function PlayButton({ radio, size = 'md', className }: PlayButtonProps) {
           />
         </svg>
       ) : showPause ? (
-        <svg
-          className={iconSizes[size]}
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-        </svg>
+        <span className="text-2xl wrd-pause"></span>
       ) : (
-        <svg
-          className={cn(iconSizes[size], 'ml-0.5')}
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M8 5v14l11-7z" />
-        </svg>
+        <span className="text-2xl wrd-play_arrow"></span>
       )}
     </button>
   );
