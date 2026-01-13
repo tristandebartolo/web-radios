@@ -14,7 +14,7 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
-APP_NAME="$1"
+APP="$1"
 PID=""
 
 # Essai 1 - format le plus fréquent actuellement
