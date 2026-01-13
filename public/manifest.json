@@ -1,7 +1,7 @@
 {
-  "name": "ElvisRds - Écouter des radios en ligne",
+  "name": "ElvisRds",
   "short_name": "ElvisRds",
-  "description": "Application moderne pour écouter vos webradios préférées. Flux HLS et MP3 supportés.",
+  "description": "Écouter des radios en ligne",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0f",
