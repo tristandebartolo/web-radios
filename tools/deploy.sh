@@ -9,12 +9,11 @@ if [ $# -ne 1 ]; then
 fi
 
 APP_NAME="$1"
+echo $APP_NAME
+
 PID=""
 
-PID=$(pm2 describe "$APP_NAME" 2>/dev/null \
-  | grep -i -E 'caddy.*pid' \
-  | awk -F '│' '{print $3}' \
-  | tr -d '[:space:]' \
+PID=$(pm2 id "$APP_NAME" 2>/dev/null \
   || true)
   
 echo $PID
