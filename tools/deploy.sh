@@ -85,7 +85,7 @@ log "INFO" "Démarrage de l'application..."
 pm2 start npm --name "$APP_NAME" -- start -- --port 3007 >/dev/null 2>&1
 
 # Petite attente pour laisser pm2 démarrer
-sleep 2
+sleep 5
 
 # Vérification rapide de l'état
 if pm2 describe "$APP_NAME" >/dev/null 2>&1; then
