@@ -11,3 +11,4 @@ fi
 APP_NAME="$1"
 
 CADDY_PID=$(./get-caddy-pid.sh $1)
+echo $CADDY_PID
