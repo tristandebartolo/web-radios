@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth';
 import prisma from '@/lib/db/prisma';
 import { StreamType } from '@prisma/client';
 
-// GET /api/radios - Liste des radios (public)
+// GET /api/radios - Liste des radios (public) avec pagination
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -11,23 +11,37 @@ export async function GET(request: Request) {
     const genre = searchParams.get('genre');
     const country = searchParams.get('country');
     const activeOnly = searchParams.get('active') !== 'false';
+    const sortField = searchParams.get('sortField') || 'name';
+    const sortOrder = searchParams.get('sortOrder') || 'asc';
+    const cursor = searchParams.get('cursor');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '5'), 50);
+
+    const where = {
+      ...(activeOnly && { isActive: true }),
+      ...(search && {
+        OR: [
+          { name: { contains: search } },
+          { description: { contains: search } },
+        ],
+      }),
+      ...(genre && {
+        genres: {
+          some: { slug: genre },
+        },
+      }),
+      ...(country && { country }),
+    };
+
+    // Construire l'orderBy dynamique
+    const orderBy: Record<string, 'asc' | 'desc'>[] = [];
+    if (sortField === 'country') {
+      orderBy.push({ country: sortOrder as 'asc' | 'desc' });
+    }
+    orderBy.push({ name: sortField === 'name' ? (sortOrder as 'asc' | 'desc') : 'asc' });
+    orderBy.push({ id: 'asc' }); // Pour assurer un ordre stable
 
     const radios = await prisma.radio.findMany({
-      where: {
-        ...(activeOnly && { isActive: true }),
-        ...(search && {
-          OR: [
-            { name: { contains: search } },
-            { description: { contains: search } },
-          ],
-        }),
-        ...(genre && {
-          genres: {
-            some: { slug: genre },
-          },
-        }),
-        ...(country && { country }),
-      },
+      where,
       include: {
         genres: {
           select: {
@@ -37,10 +51,27 @@ export async function GET(request: Request) {
           },
         },
       },
-      orderBy: { name: 'asc' },
+      orderBy,
+      take: limit + 1, // On prend 1 de plus pour savoir s'il y a une page suivante
+      ...(cursor && {
+        cursor: { id: cursor },
+        skip: 1, // Skip le curseur lui-même
+      }),
     });
 
-    return NextResponse.json(radios);
+    const hasNextPage = radios.length > limit;
+    const items = hasNextPage ? radios.slice(0, -1) : radios;
+    const nextCursor = hasNextPage ? items[items.length - 1]?.id : null;
+
+    // Compter le total pour l'affichage
+    const total = await prisma.radio.count({ where });
+
+    return NextResponse.json({
+      items,
+      nextCursor,
+      hasNextPage,
+      total,
+    });
   } catch (error) {
     console.error('Error fetching radios:', error);
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });

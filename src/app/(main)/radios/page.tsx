@@ -7,20 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RadiosPage() {
-  const [radios, genres] = await Promise.all([
-    prisma.radio.findMany({
-      where: { isActive: true },
-      include: {
-        genres: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-          },
-        },
-      },
-      orderBy: { name: 'asc' },
-    }),
+  const [genres, countriesResult] = await Promise.all([
     prisma.genre.findMany({
       orderBy: { name: 'asc' },
       where: {
@@ -29,11 +16,15 @@ export default async function RadiosPage() {
         },
       },
     }),
+    prisma.radio.findMany({
+      where: { isActive: true, country: { not: null } },
+      select: { country: true },
+      distinct: ['country'],
+      orderBy: { country: 'asc' },
+    }),
   ]);
 
-  // Extraire les pays uniques
-  const countries = [...new Set(radios.map((r) => r.country).filter(Boolean))] as string[];
-  countries.sort((a, b) => a.localeCompare(b));
+  const countries = countriesResult.map((r) => r.country).filter(Boolean) as string[];
 
-  return <RadiosPageClient radios={radios} genres={genres} countries={countries} />;
+  return <RadiosPageClient genres={genres} countries={countries} />;
 }

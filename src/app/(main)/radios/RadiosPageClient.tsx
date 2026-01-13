@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { RadioGrid } from "@/components/radio/RadioGrid";
 import { RadioList } from "@/components/radio/RadioList";
 import { Select } from "@/components/ui/Select";
@@ -18,7 +19,6 @@ interface Radio extends RadioForPlayer {
 }
 
 interface RadiosPageClientProps {
-  radios: Radio[];
   genres: Genre[];
   countries: string[];
 }
@@ -27,7 +27,7 @@ type SortField = "name" | "country";
 type SortOrder = "asc" | "desc";
 type ViewMode = "grid" | "list";
 
-const FILTERS_STORAGE_KEY = "webradios_radios_filters";
+const LIMIT = 5;
 
 interface FiltersState {
   search: string;
@@ -47,108 +47,182 @@ const defaultFilters: FiltersState = {
   viewMode: "grid",
 };
 
-function loadFiltersFromStorage(): FiltersState {
-  if (typeof window === "undefined") return defaultFilters;
-
-  try {
-    const stored = localStorage.getItem(FILTERS_STORAGE_KEY);
-    if (stored) {
-      return { ...defaultFilters, ...JSON.parse(stored) };
-    }
-  } catch (error) {
-    console.error("Error loading filters from localStorage:", error);
-  }
-  return defaultFilters;
-}
-
-function saveFiltersToStorage(filters: FiltersState) {
-  if (typeof window === "undefined") return;
-
-  try {
-    localStorage.setItem(FILTERS_STORAGE_KEY, JSON.stringify(filters));
-  } catch (error) {
-    console.error("Error saving filters to localStorage:", error);
-  }
-}
-
 export function RadiosPageClient({
-  radios,
   genres,
   countries,
 }: RadiosPageClientProps) {
-  const [filters, setFilters] = useState<FiltersState>(defaultFilters);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [radios, setRadios] = useState<Radio[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
+  const [total, setTotal] = useState(0);
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // Charger les filtres depuis localStorage au montage
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Lire les filtres depuis l'URL
+  const getFiltersFromURL = useCallback((): FiltersState => {
+    const viewMode = (localStorage.getItem("webradios_viewMode") as ViewMode) || "grid";
+    return {
+      search: searchParams.get("search") || "",
+      genre: searchParams.get("genre") || "",
+      country: searchParams.get("country") || "",
+      sortField: (searchParams.get("sortField") as SortField) || "name",
+      sortOrder: (searchParams.get("sortOrder") as SortOrder) || "asc",
+      viewMode,
+    };
+  }, [searchParams]);
+
+  const [filters, setFilters] = useState<FiltersState>(defaultFilters);
+
+  // Synchroniser les filtres avec l'URL au montage
   useEffect(() => {
-    setFilters(loadFiltersFromStorage());
+    setFilters(getFiltersFromURL());
     setIsHydrated(true);
+  }, [getFiltersFromURL]);
+
+  // Mettre à jour l'URL quand les filtres changent
+  const updateURL = useCallback((newFilters: FiltersState) => {
+    const params = new URLSearchParams();
+
+    if (newFilters.search) params.set("search", newFilters.search);
+    if (newFilters.genre) params.set("genre", newFilters.genre);
+    if (newFilters.country) params.set("country", newFilters.country);
+    if (newFilters.sortField !== "name") params.set("sortField", newFilters.sortField);
+    if (newFilters.sortOrder !== "asc") params.set("sortOrder", newFilters.sortOrder);
+
+    const queryString = params.toString();
+    router.push(queryString ? `?${queryString}` : "/radios", { scroll: false });
+  }, [router]);
+
+  // Fetch des radios depuis l'API
+  const fetchRadios = useCallback(async (
+    currentFilters: FiltersState,
+    cursor: string | null = null,
+    append: boolean = false
+  ) => {
+    // Annuler la requête précédente si elle existe
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+
+    if (append) {
+      setIsLoadingMore(true);
+    } else {
+      setIsLoading(true);
+    }
+
+    try {
+      const params = new URLSearchParams();
+      params.set("limit", String(LIMIT));
+      if (currentFilters.search) params.set("search", currentFilters.search);
+      if (currentFilters.genre) params.set("genre", currentFilters.genre);
+      if (currentFilters.country) params.set("country", currentFilters.country);
+      if (currentFilters.sortField) params.set("sortField", currentFilters.sortField);
+      if (currentFilters.sortOrder) params.set("sortOrder", currentFilters.sortOrder);
+      if (cursor) params.set("cursor", cursor);
+
+      const response = await fetch(`/api/radios?${params.toString()}`, {
+        signal: abortControllerRef.current.signal,
+      });
+
+      if (!response.ok) throw new Error("Erreur lors du chargement");
+
+      const data = await response.json();
+
+      if (append) {
+        setRadios((prev) => [...prev, ...data.items]);
+      } else {
+        setRadios(data.items);
+      }
+
+      setHasNextPage(data.hasNextPage);
+      setNextCursor(data.nextCursor);
+      setTotal(data.total);
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        return; // Requête annulée, on ignore
+      }
+      console.error("Error fetching radios:", error);
+    } finally {
+      setIsLoading(false);
+      setIsLoadingMore(false);
+    }
   }, []);
 
-  // Sauvegarder dans localStorage à chaque changement
+  // Charger les radios quand les filtres changent
   useEffect(() => {
-    if (isHydrated) {
-      saveFiltersToStorage(filters);
+    if (!isHydrated) return;
+    fetchRadios(filters);
+  }, [filters, isHydrated, fetchRadios]);
+
+  // Debounce pour la recherche
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [searchInput, setSearchInput] = useState("");
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    setSearchInput(filters.search);
+  }, [filters.search, isHydrated]);
+
+  const handleSearchChange = (value: string) => {
+    setSearchInput(value);
+
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
     }
-  }, [filters, isHydrated]);
 
-  // Filtrer et trier les radios
-  const filteredRadios = useMemo(() => {
-    let result = radios.filter((radio) => {
-      // Filtre par recherche
-      if (filters.search) {
-        const searchLower = filters.search.toLowerCase();
-        const nameMatch = radio.name.toLowerCase().includes(searchLower);
-        const descMatch = radio.description
-          ?.toLowerCase()
-          .includes(searchLower);
-        if (!nameMatch && !descMatch) return false;
-      }
+    searchTimeoutRef.current = setTimeout(() => {
+      const newFilters = { ...filters, search: value };
+      setFilters(newFilters);
+      updateURL(newFilters);
+    }, 300);
+  };
 
-      // Filtre par genre
-      if (
-        filters.genre &&
-        !radio.genres.some((g) => g.slug === filters.genre)
-      ) {
-        return false;
-      }
+  // Infinite scroll avec IntersectionObserver
+  useEffect(() => {
+    if (!loadMoreRef.current || !hasNextPage || isLoadingMore) return;
 
-      // Filtre par pays
-      if (filters.country && radio.country !== filters.country) {
-        return false;
-      }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting && hasNextPage && !isLoadingMore) {
+          fetchRadios(filters, nextCursor, true);
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" }
+    );
 
-      return true;
-    });
+    observer.observe(loadMoreRef.current);
 
-    // Trier
-    result.sort((a, b) => {
-      let comparison = 0;
-
-      switch (filters.sortField) {
-        case "name":
-          comparison = a.name.localeCompare(b.name);
-          break;
-        case "country":
-          comparison = (a.country || "").localeCompare(b.country || "");
-          break;
-      }
-
-      return filters.sortOrder === "asc" ? comparison : -comparison;
-    });
-
-    return result;
-  }, [radios, filters]);
+    return () => observer.disconnect();
+  }, [hasNextPage, isLoadingMore, nextCursor, filters, fetchRadios]);
 
   function updateFilter<K extends keyof FiltersState>(
     key: K,
     value: FiltersState[K]
   ) {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    const newFilters = { ...filters, [key]: value };
+    setFilters(newFilters);
+
+    // Sauvegarder viewMode en localStorage (pas dans l'URL)
+    if (key === "viewMode") {
+      localStorage.setItem("webradios_viewMode", value as string);
+    } else {
+      updateURL(newFilters);
+    }
   }
 
   function resetFilters() {
-    setFilters({ ...defaultFilters, viewMode: filters.viewMode });
+    const newFilters = { ...defaultFilters, viewMode: filters.viewMode };
+    setFilters(newFilters);
+    setSearchInput("");
+    router.push("/radios", { scroll: false });
   }
 
   const hasActiveFilters =
@@ -159,7 +233,7 @@ export function RadiosPageClient({
     filters.sortOrder !== "asc";
 
   // Générer la liste des filtres actifs
-  const activeFilterTags = useMemo(() => {
+  const activeFilterTags = (() => {
     const tags: { key: string; label: string }[] = [];
 
     if (filters.search) {
@@ -180,7 +254,7 @@ export function RadiosPageClient({
     }
 
     return tags;
-  }, [filters, genres]);
+  })();
 
   if (!isHydrated) {
     return (
@@ -219,8 +293,8 @@ export function RadiosPageClient({
             <input
               type="text"
               placeholder="Rechercher une radio..."
-              value={filters.search}
-              onChange={(e) => updateFilter("search", e.target.value)}
+              value={searchInput}
+              onChange={(e) => handleSearchChange(e.target.value)}
               className="w-full pl-12 pr-4 py-2.5 rounded-lg bg-(--secondary) border border-(--border) text-foreground placeholder:text-(--muted) focus:outline-none focus:ring-2 focus:ring-(--primary) focus:border-transparent"
             />
           </div>
@@ -326,33 +400,6 @@ export function RadiosPageClient({
           </div>
         </div>
 
-        {/* Ligne 3 : Genres rapides */}
-        {/* <div className="flex flex-wrap gap-2 pt-2 border-t border-(--border)">
-          <button
-            onClick={() => updateFilter("genre", "")}
-            className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
-              !filters.genre
-                ? "bg-(--primary) text-white"
-                : "bg-(--secondary) text-foreground hover:bg-(--card-hover)"
-            }`}
-          >
-            Tous
-          </button>
-          {genres.map((genre) => (
-            <button
-              key={genre.id}
-              onClick={() => updateFilter("genre", genre.slug)}
-              className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
-                filters.genre === genre.slug
-                  ? "bg-(--primary) text-white"
-                  : "bg-(--secondary) text-foreground hover:bg-(--card-hover)"
-              }`}
-            >
-              {genre.name}
-            </button>
-          ))}
-        </div> */}
-
         {/* Filtres actifs et Reset */}
         {hasActiveFilters && (
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-(--border)">
@@ -383,13 +430,18 @@ export function RadiosPageClient({
           Radios
         </h1>
         <p className="text-(--muted)">
-          {filteredRadios.length} radio{filteredRadios.length > 1 ? "s" : ""}{" "}
-          disponible{filteredRadios.length > 1 ? "s" : ""}
+          {radios.length} / {total} radio{total > 1 ? "s" : ""}{" "}
+          disponible{total > 1 ? "s" : ""}
         </p>
       </div>
 
       {/* Résultats */}
-      {filteredRadios.length === 0 ? (
+      {isLoading ? (
+        <div className="text-center py-12">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-(--primary) border-t-transparent"></div>
+          <p className="text-(--muted) mt-4">Chargement des radios...</p>
+        </div>
+      ) : radios.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">
             <span className="wrd-radio"></span>
@@ -399,9 +451,21 @@ export function RadiosPageClient({
           </p>
         </div>
       ) : filters.viewMode === "grid" ? (
-        <RadioGrid radios={filteredRadios} />
+        <RadioGrid radios={radios} />
       ) : (
-        <RadioList radios={filteredRadios} />
+        <RadioList radios={radios} />
+      )}
+
+      {/* Loader pour infinite scroll */}
+      {hasNextPage && (
+        <div ref={loadMoreRef} className="flex justify-center py-8">
+          {isLoadingMore && (
+            <div className="flex items-center gap-3">
+              <div className="inline-block animate-spin rounded-full h-6 w-6 border-4 border-(--primary) border-t-transparent"></div>
+              <span className="text-(--muted)">Chargement...</span>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
